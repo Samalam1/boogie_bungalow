@@ -1,18 +1,18 @@
-enum EntranceEffect {
+export enum EntranceEffect {
     None,
     BringSingleGuest,
     BringTwoGuests,
     PopUp,
 }
 
-enum OnScoreEffect {
+export enum OnScoreEffect {
     None,
     Auction,
     MaxGuestsBonus,
     OldFriendBonus
 }
 
-enum GuestAction {
+export enum GuestAction {
     None,
     Peek,
     Boot,
@@ -29,9 +29,11 @@ enum GuestAction {
 
 export type Guest = {
 
+
     name:string,
     pop:number,
     trouble:number,
+
     cash:number,
     shopCount:number,
     cost:number,
@@ -39,6 +41,8 @@ export type Guest = {
     action:GuestAction,
     entranceEffect:EntranceEffect,
     onScoreEffect:OnScoreEffect,
+
+    hasAction:boolean,
 
 }
 
@@ -66,6 +70,7 @@ export interface House {
 }
 
 export const defaultGuestValues:Guest = {
+
     name:"Unamed",
     pop:0,
     trouble:0,
@@ -76,6 +81,7 @@ export const defaultGuestValues:Guest = {
     entranceEffect:EntranceEffect.None,
     action:GuestAction.None,
     onScoreEffect:OnScoreEffect.None,
+    hasAction:false,
 }
 
 
@@ -83,6 +89,7 @@ export const defaultGuestValues:Guest = {
 export function CreateGuest(guestValues:GuestParams):Guest{
 
     return {
+
         name:guestValues.name,
         pop:guestValues.pop??defaultGuestValues.pop,
         trouble:guestValues.trouble??defaultGuestValues.trouble,
@@ -90,12 +97,14 @@ export function CreateGuest(guestValues:GuestParams):Guest{
         shopCount:guestValues.shopCount??defaultGuestValues.shopCount,
         cost:guestValues.cost??defaultGuestValues.cost,
         stars:guestValues.stars??defaultGuestValues.stars,
-
+        hasAction:true,
         action:guestValues.action??defaultGuestValues.action,
         entranceEffect:guestValues.entranceEffect??defaultGuestValues.entranceEffect,
         onScoreEffect:guestValues.onScoreEffect??defaultGuestValues.onScoreEffect,
     }
 }
+
+
 
 export function CreateGuestList(){
 
