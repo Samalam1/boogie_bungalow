@@ -21,7 +21,7 @@ class Shop{
         if(item && item.available > 0 && item.Guest.cost <= player.cash){
             item.available--;
             player.cash -= item.Guest.cost;
-            player.rolledex.push({...item.Guest}); // clone the guest
+            player.rolodex.push({...item.Guest}); // clone the guest
             return true;
         }
         return false;

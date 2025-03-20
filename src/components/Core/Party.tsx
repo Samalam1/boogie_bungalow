@@ -1,20 +1,27 @@
 import { Guest, GuestAction } from "./Guests";
 import { Player } from "./Player";
 
-export class House {
+
+enum PartyState{
+    Normal,
+    SelectingGuest,
+    SelectingFromContacts
+}
+
+export class Party {
     owner:Player;
     guests: Guest[] = [];
     availableGuests: Guest[];
 
 
-
-
     constructor(owner:Player){
 
         this.owner = owner;
-        this.availableGuests = [...owner.rolledex];
+        this.availableGuests = [...owner.rolodex];
 
     }
+
+
 
     AdmitRandomGuest(){
         if(this.availableGuests.length > 0){
@@ -26,6 +33,14 @@ export class House {
             this.availableGuests.splice(randomIndex, 1);
             this.guests.push(admitted);
         }
+    }
+
+    CalculateTrouble(){
+        let trouble = 0;
+        this.guests.forEach(g => {
+            trouble += g.trouble;
+        });
+        return trouble;
     }
 
 }

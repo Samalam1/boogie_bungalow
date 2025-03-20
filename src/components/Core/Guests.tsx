@@ -41,7 +41,7 @@ export type Guest = {
     action:GuestAction,
     entranceEffect:EntranceEffect,
     onScoreEffect:OnScoreEffect,
-
+    description:string,
     hasAction:boolean,
 
 }
@@ -58,6 +58,7 @@ export type GuestParams = {
     action?:GuestAction,
     entranceEffect?:EntranceEffect,
     onScoreEffect?:OnScoreEffect,
+    description?:string,
 
 }
 
@@ -81,7 +82,8 @@ export const defaultGuestValues:Guest = {
     entranceEffect:EntranceEffect.None,
     action:GuestAction.None,
     onScoreEffect:OnScoreEffect.None,
-    hasAction:false,
+    hasAction:true,
+    description:""
 }
 
 
@@ -97,16 +99,29 @@ export function CreateGuest(guestValues:GuestParams):Guest{
         shopCount:guestValues.shopCount??defaultGuestValues.shopCount,
         cost:guestValues.cost??defaultGuestValues.cost,
         stars:guestValues.stars??defaultGuestValues.stars,
-        hasAction:true,
+        hasAction:false,
         action:guestValues.action??defaultGuestValues.action,
         entranceEffect:guestValues.entranceEffect??defaultGuestValues.entranceEffect,
         onScoreEffect:guestValues.onScoreEffect??defaultGuestValues.onScoreEffect,
+        description:guestValues.description??defaultGuestValues.description
     }
 }
 
 
+let masterGuestList:Guest[] = [];
 
-export function CreateGuestList(){
+
+export function GetGuestDefinitionByName(name:string):Guest{
+
+        if(masterGuestList.length===0){
+            masterGuestList = InitializeMasterGuestList();
+        }
+
+        return masterGuestList.find(x => x.name == name)??CreateGuest({name:"Guest Not Found"});
+
+}
+
+export function InitializeMasterGuestList(){
 
     return [
         CreateGuest({ name: "Old Friend", cost: 1, pop: 1 }),
