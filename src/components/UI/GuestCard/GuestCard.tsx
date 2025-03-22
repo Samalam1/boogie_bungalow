@@ -66,11 +66,11 @@ function StatNumber({ type, value }: { type: string, value: number }) {
 
 function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
 
+    if(action == GuestAction.None)
+        return null;
     let desc = "";
     switch (action) {
-        case GuestAction.None:
-            desc = "";
-            break;
+
         case GuestAction.BootAdjacent:
             desc = "Boot two adjecent guests";
             break;
@@ -191,12 +191,12 @@ export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: G
                 }
 
                 <div className="stats-row">
-                {guest.action != GuestAction.None &&
+                
                     <div className="info-row" >
                         <ActionLine used={!guest.hasAction} action={guest.action} />
                         <InfoLine effect={guest.entranceEffect} scoreEffect={guest.onScoreEffect} />
                     </div>
-                }
+                
                     <StatNumber type="pop" value={guest.pop} />
                     <StatNumber type="cash" value={guest.cash} />
                     <StatNumber type="trouble" value={guest.trouble} />
