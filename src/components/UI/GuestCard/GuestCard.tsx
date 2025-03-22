@@ -137,7 +137,7 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
 
     switch (scoreEffect) {
         case OnScoreEffect.MaxGuestsBonus:
-            scoreDesc = "If you have no empty seats, score 3 extra points";
+            scoreDesc = "If the party ends with maximum guests, +5 popularity.";
             break;
         case OnScoreEffect.OldFriendBonus:
             scoreDesc = "Gain plus 1 POP for each Old Friend";
