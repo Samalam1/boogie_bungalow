@@ -136,7 +136,7 @@ const guestFilter = useRef<(g:Guest)=>boolean>(()=>true);
     }
 
 
-    return <div style={{display:"flex",flexDirection:"row",flexWrap:"wrap",gap:"10px"}}>
+    return <div className="main-cont">
              <button
                 className="guest-slot open-door"
                 onClick={
