@@ -43,6 +43,7 @@ export type Guest = {
     onScoreEffect:OnScoreEffect,
     description:string,
     hasAction:boolean,
+    bg:string,
 
 }
 
@@ -83,7 +84,8 @@ export const defaultGuestValues:Guest = {
     action:GuestAction.None,
     onScoreEffect:OnScoreEffect.None,
     hasAction:false,
-    description:""
+    description:"",
+    bg:""
 }
 
 
@@ -103,7 +105,9 @@ export function CreateGuest(guestValues:GuestParams):Guest{
         action:guestValues.action??defaultGuestValues.action,
         entranceEffect:guestValues.entranceEffect??defaultGuestValues.entranceEffect,
         onScoreEffect:guestValues.onScoreEffect??defaultGuestValues.onScoreEffect,
-        description:guestValues.description??defaultGuestValues.description
+        description:guestValues.description??defaultGuestValues.description,
+        bg:defaultGuestValues.bg,
+    
     }
 }
 
@@ -132,7 +136,7 @@ export function GetMasterGuestList():Guest[]{
 
 export function InitializeMasterGuestList(){
 
-    return [
+   let list =[
         CreateGuest({ name: "Old Friend", cost: 1, pop: 1 }),
         CreateGuest({ name: "Rich Pal", cost: 3, cash: 1 }),
         CreateGuest({ name: "Wild Buddy", pop: 2, trouble: 1 }),
@@ -196,5 +200,15 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Unicorn", cost: 45, trouble: -1,stars:  1 }),
         CreateGuest({ name: "Superhero", cost: 50, pop: 3,stars:  1 }),
     ]
+
+    for(let i = 0;i<list.length;i++){
+        let perc = i/list.length;
+        let r = Math.floor(perc*360);
+        list[i].bg = `hsl(${r},100%,90%)`;
+
+    }
+
+
+    return list;
 
 }

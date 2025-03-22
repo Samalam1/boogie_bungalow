@@ -32,6 +32,7 @@ export class Party {
     constructor(player:Player,maxGuests:number){
 
         this.player = player;
+        this.maxGuests = maxGuests;
         this.availableGuests = shuffleArray([...player.rolodex]);
 
     }
@@ -118,12 +119,12 @@ const guestFilter = useRef<(g:Guest)=>boolean>(()=>true);
         party.AdmitRandomGuest();
         setGuests([...party.guests]);
 
-        if(party.IsTooCrowded()){
-            setUiState(PartyState.FailTooCrowded);
-        }
-        else if(party.CalculateTrouble() > 2){
-            setUiState(PartyState.FailTooMuchTrouble);
-        }
+        // if(party.IsTooCrowded()){
+        //     setUiState(PartyState.FailTooCrowded);
+        // }
+        // else if(party.CalculateTrouble() > 2){
+        //     setUiState(PartyState.FailTooMuchTrouble);
+        // }
 
 
     },[party]);

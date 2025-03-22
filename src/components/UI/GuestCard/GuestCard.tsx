@@ -57,7 +57,7 @@ function StatNumber({ type, value }: { type: string, value: number }) {
     let negative = test<0;
 
     return <div className={"stroked-text stat-number " + type + (negative? " negative" : "")}>
-        {icon} <span>{value}</span>
+        {icon} <span>{(value>0?"+":"")}{value}</span>
     </div>
 
 }
@@ -167,17 +167,20 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
 
 
 export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: Guest,onClick?:()=>void }) {
-
+    
+ let path = "/guests/"+guest.name.toLowerCase().replace(' ','_').replace(".","")+".webp";
     return (
         <div className={"guest-card "+addClass}
+        style={{background:guest.bg}}
             onClick={onClick}
         >
             <div className="top-portion">
-                <div className="title">
+                <div className={"title "+(guest.name.length>"grillmast".length?"small":"")}>
                     {guest.name}
                 </div>
 
                 <div className="portrait">
+                    <img width={64} height={64} src={path} alt={guest.name} />
                 </div>
             </div>
             <div className="bottom-portion">
