@@ -33,7 +33,7 @@ export type Guest = {
     name:string,
     pop:number,
     trouble:number,
-
+    key?:string,
     cash:number,
     shopCount:number,
     cost:number,
@@ -82,7 +82,7 @@ export const defaultGuestValues:Guest = {
     entranceEffect:EntranceEffect.None,
     action:GuestAction.None,
     onScoreEffect:OnScoreEffect.None,
-    hasAction:true,
+    hasAction:false,
     description:""
 }
 
@@ -119,6 +119,15 @@ export function GetGuestDefinitionByName(name:string):Guest{
 
         return masterGuestList.find(x => x.name == name)??CreateGuest({name:"Guest Not Found"});
 
+}
+
+export function GetMasterGuestList():Guest[]{
+
+        if(masterGuestList.length===0){
+            masterGuestList = InitializeMasterGuestList();
+        }
+
+        return masterGuestList;
 }
 
 export function InitializeMasterGuestList(){

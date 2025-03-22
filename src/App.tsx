@@ -3,13 +3,20 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import PeerTest from './peertesting'
+import { Party, PartyUI } from './components/Core/Party'
+import { Player } from './components/Core/Player'
+import { GetMasterGuestList } from './components/Core/Guests'
 
 function App() {
 
 
+  const player = new Player();
+  player.rolodex = [...GetMasterGuestList()];
+  const party = new Party(player, 5);
+
   return (
     <>
-<PeerTest />
+      <PartyUI party={party} />
     </>
   )
 }

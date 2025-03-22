@@ -1,6 +1,6 @@
 import { JSX } from "react";
 import { Guest, GuestAction } from "../../Core/Guests";
-
+import "./GuestCard.scss";
 
 function TroubleIcon() {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height={"1em"} fill="currentColor"><path d="M569.5 440C588 472 564.8 512 527.9 512H48.1c-36.9 0-60-40.1-41.6-72L246.4 24c18.5-32 64.7-32 83.2 0l239.9 416zM288 354c-25.4 0-46 20.6-46 46s20.6 46 46 46 46-20.6 46-46-20.6-46-46-46zm-43.7-165.3l7.4 136c.3 6.4 5.6 11.3 12 11.3h48.5c6.4 0 11.6-5 12-11.3l7.4-136c.4-6.9-5.1-12.7-12-12.7h-63.4c-6.9 0-12.4 5.8-12 12.7z" /></svg>
@@ -20,7 +20,7 @@ function ActionIcon() {
 
 function StarIcon() {
 
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" height={"1em"} fill="currentColor" ><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" /></svg>
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width={"1em"} fill="currentColor" ><path d="M316.9 18C311.6 7 300.4 0 288.1 0s-23.4 7-28.8 18L195 150.3 51.4 171.5c-12 1.8-22 10.2-25.7 21.7s-.7 24.2 7.9 32.7L137.8 329 113.2 474.7c-2 12 3 24.2 12.9 31.3s23 8 33.8 2.3l128.3-68.5 128.3 68.5c10.8 5.7 23.9 4.9 33.8-2.3s14.9-19.3 12.9-31.3L438.5 329 542.7 225.9c8.6-8.5 11.7-21.2 7.9-32.7s-13.7-19.9-25.7-21.7L381.2 150.3 316.9 18z" /></svg>
 }
 
 function StatNumber({ type, value }: { type: string, value: number }) {
@@ -50,7 +50,7 @@ function StatNumber({ type, value }: { type: string, value: number }) {
 
 
 
-    return <div className={"stroked-text stat-number" + type}>
+    return <div className={"stroked-text stat-number " + type}>
         {icon} <span>{value}</span>
     </div>
 
@@ -75,7 +75,7 @@ function ActionLine({ action }: { action: GuestAction }) {
             desc = "Clear all trouble";
             break;
         case GuestAction.Cheer:
-            desc = "Let's one guest use their action again (excluding this ability)";
+            desc = "Let's one guest use their action again";
             break;
         case GuestAction.Fetch:
             desc = "Fetch a guest from your rolodex";
@@ -93,43 +93,48 @@ function ActionLine({ action }: { action: GuestAction }) {
             desc = "Peek at the next guest";
             break;
         case GuestAction.SwapStar:
-            desc = "Swap this guest with a star guest from your rolodex";
+            desc = "Swap with a star guest";
             break;
     }
 
     return <div className="action-line">
-        <ActionIcon />
+
         <span>{desc}</span>
     </div>
 
 }
 
-export function GuestCard({ guest }: { guest: Guest }) {
+export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: Guest,onClick?:()=>void }) {
 
     return (
-        <div className="guest-card">
-            <div className="title">
-                {guest.name}
-            </div>
-
-            <div className="portrait">
-            </div>
-
-            {guest.description.length > 1 &&
-                <div className="description">
-                    {guest.description}
+        <div className={"guest-card "+addClass}
+            onClick={onClick}
+        >
+            <div className="top-portion">
+                <div className="title">
+                    {guest.name}
                 </div>
-            }
-            {guest.action!=GuestAction.None &&
-                <div className="action-row" style={{opacity:guest.hasAction?1:0.5}}>
-                <ActionLine action={guest.action} />
+
+                <div className="portrait">
+                </div>
             </div>
-            }
-            <div className="stats-row">
-                <StatNumber type="pop" value={guest.pop} />
-                <StatNumber type="cash" value={guest.cash} />
-                <StatNumber type="trouble" value={guest.trouble} />
-                {guest.stars > 0 && <StarIcon />}
+            <div className="bottom-portion">
+                {guest.description.length > 1 &&
+                    <div className="description">
+                        {guest.description}
+                    </div>
+                }
+                {guest.action != GuestAction.None &&
+                    <div className="action-row" style={{ opacity: guest.hasAction ? 1 : 0.5 }}>
+                        <ActionLine action={guest.action} />
+                    </div>
+                }
+                <div className="stats-row">
+                    <StatNumber type="pop" value={guest.pop} />
+                    <StatNumber type="cash" value={guest.cash} />
+                    <StatNumber type="trouble" value={guest.trouble} />
+                    {guest.stars > 0 && <StarIcon />}
+                </div>
             </div>
         </div>
     )
