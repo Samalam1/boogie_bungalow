@@ -4,16 +4,23 @@
     --pop-color: #f7cf20;
     --cash-color: #40e283;
     --text-stroke: #333;
+    --action-color:#03855e;
+    --action-color-secondary:#41a55a;
+    --star-color:#f7cf20;
 }
 
 
 .guest-slot, .guest-card {
-    width:150px;
-    height: 200px;
+    width:100px;
+    height: 150px;
     border-radius: 10px;
     box-sizing: border-box;
     margin: 4px;
 
+}
+
+body{
+    background: #0d0d0e;
 }
 
 @media screen and (max-width: 768px) {
@@ -35,13 +42,19 @@
 }
 
 .guest-slot, .guest-card {
-    width: 200px;
-    height: 250px;
+    width: 120px;
+    height: 160px;
+}
+
+.star-icon{
+    color: var(--star-color);
+    font-size: 1.5em;
+    animation: wiggle 1s infinite;
 }
 
 .guest-card{
 
-
+    position: relative;
     animation: flip-in 0.5s ease-in-out ;
     box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.1);
     display: flex;
@@ -69,8 +82,10 @@
     .title{
 
         font-weight: 600;
-
+        padding: 0 6px;
     }
+
+
 
     .stats-row, .abilty-row{
         display: flex;
@@ -87,53 +102,93 @@
         justify-content: flex-end;
     }
     .action-line {
-        font-size: 0.8rem;
-        text-align: left;
-        align-items: flex-start;
-        background: #f7f7f7;
-        animation: action-active-anim 2s infinite;
-        padding: 16px 4px 4px;
-        box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.1);
-        outline: 1px solid #9c9c9c;
-        border-radius: 4px;
-        font-size: 12px;
-        position: relative;
-        display: block;
-        font-weight: 600;
-        margin-bottom: 4px;
-        gap:0px;
+
+  
+        display: flex;
+        place-items: center;
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
 
 
-        &::before {
-            position: absolute;
-            content: "Action ";
-            font-weight: 700;
-            top: 0;
-            font-size: 10px;
-            letter-spacing: 1px;;
-            font-style: italic;
-            color: #a06800;
-
+        div{
+            display: flex;
+            place-content: center;
+            width:32px;
+            height: 32px;
+            background:var(--action-color); 
+            color: white;
+            border-radius: 50px;
+            animation: action-active-anim 2s infinite;
         }
+
+        svg{
+            animation: action-active-anim 2s infinite;
+            height: 2em;
+        }
+
+
         &.used{
-            background: none;
-            color: #9c9c9c;
-            opacity: 0.5;
-            animation: none;
-            text-decoration: line-through;
-
-            &::before {
-                color: #b36161;
-                content: "Used ";
-
+            div{
+           
+                animation: none !important;
+                background: grey;
             }
         }
 
-        svg {
-            flex-shrink: 0;
-            margin-top: 4px;
+
+        span{
+            display: none;
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: calc(50%);
+            transform: translateX(-50%);
+            background: #000000;
+            color: white;
+            padding:24px 8px 8px 8px;
+            border-radius: 4px;
+            opacity: 0;
+            width: max-content;
+            max-width: 200px;
+            box-sizing: border-box;
+            box-shadow:  0 2px 8px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        span::before{
+            position: absolute;
+            left: 0;
+            top:4px;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            font-weight: bolder;
+            content: 'Action';
+            color: rgb(24, 156, 68);
+            font-style: italic;
+        }
+
+        span::after{
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid #000000;
+            top: 100%;
+            left: calc(50% - 8px);
+        }
+
+        &:hover{
+            span{
+                opacity: 1;
+                display: block;
+                transition: .2s ease-in-out;
+            }
+
         }
     }
+
 
 
     .stat-number{
@@ -196,14 +251,28 @@
 
 }
 
-@keyframes action-active-anim{
+@keyframes wiggle{
     0%{
-        background: white;
+        transform: rotate(0deg);
     }
     50%{
-       background: #fdffea;
+        transform: rotate(5deg);
     }
     100%{
-        background: white;
+        transform: rotate(-5deg);
     }
 }
+
+@keyframes action-active-anim{
+    0%{
+        background: var(--action-color);
+    }
+    50%{
+       background: var(--action-color-secondary);
+    }
+    100%{
+        background: var(--action-color);
+    }
+}
+
+
