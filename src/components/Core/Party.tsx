@@ -51,7 +51,7 @@ export class Party {
             let admitted = {...nextGuest}; // clone values so they can be modified, will need to figure out popularity
             admitted.hasAction = (admitted.action!=GuestAction.None);
 
-            this.guests = [admitted,...this.guests];
+           this.guests.push(admitted);
             admitted.key = Math.random().toString(36).substring(7);
             this.OnEnter(admitted);
             return admitted;
