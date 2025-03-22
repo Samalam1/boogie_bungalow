@@ -12,7 +12,7 @@ function App() {
 
   const player = new Player();
   player.rolodex = [...GetMasterGuestList()];
-  const party = new Party(player, 5);
+  const party = new Party(player, 10);
 
   return (
     <>

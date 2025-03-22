@@ -80,7 +80,10 @@ body{
     }
 
     .title{
-
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 0;
         font-weight: 600;
         padding: 0 6px;
     }
@@ -101,31 +104,35 @@ body{
     .stats-row{
         justify-content: flex-end;
     }
-    .action-line {
+
+    .info-row{
+        position: absolute;
+        left: 4px;
+        bottom: 4px;
+        display: flex;
+        gap:4px;
+    }
+    .tool-tipped {
 
   
         display: flex;
         place-items: center;
-        position: absolute;
-        left: 4px;
-        bottom: 4px;
+        position: relative;
 
 
         div{
             display: flex;
-            place-content: center;
+            align-items: center;
+            justify-content: center;
             width:32px;
             height: 32px;
             background:var(--action-color); 
             color: white;
             border-radius: 50px;
             animation: action-active-anim 2s infinite;
+            font-weight: bolder;
         }
 
-        svg{
-            animation: action-active-anim 2s infinite;
-            height: 2em;
-        }
 
 
         &.used{
@@ -149,9 +156,13 @@ body{
             border-radius: 4px;
             opacity: 0;
             width: max-content;
-            max-width: 200px;
+            max-width: 150px;
             box-sizing: border-box;
             box-shadow:  0 2px 8px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        span:hover{
+            z-index: 10;
         }
 
         span::before{
@@ -184,11 +195,23 @@ body{
                 opacity: 1;
                 display: block;
                 transition: .2s ease-in-out;
+                
             }
 
         }
     }
 
+    .info-line{
+        div{
+            animation: none;
+            background: gray;
+        }
+        span::before{
+
+            content: 'Info';
+            color:gray;
+        }
+    }
 
 
     .stat-number{

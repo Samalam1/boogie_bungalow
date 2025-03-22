@@ -1,5 +1,5 @@
 import { act, JSX } from "react";
-import { Guest, GuestAction } from "../../Core/Guests";
+import { EntranceEffect, Guest, GuestAction, OnScoreEffect } from "../../Core/Guests";
 import "./GuestCard.scss";
 
 function TroubleIcon() {
@@ -97,12 +97,68 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             break;
     }
 
-    return <div className={"action-line "+(used?"used":"")}>
+    return <div className={"action-line tool-tipped "+(used?"used":"")}>
       <div>A</div>
         <span>{desc}</span>
     </div>
 
 }
+
+
+function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:OnScoreEffect}) {
+
+    if(effect == EntranceEffect.None && scoreEffect == OnScoreEffect.None)
+        return null;
+
+    let entDesc = "";
+    let scoreDesc = "";
+    switch (effect) {
+
+        case EntranceEffect.BringSingleGuest:
+            entDesc = "Brings an extra guest";
+            break;
+        case EntranceEffect.BringTwoGuests:
+            entDesc = "Brings two extra guests";
+            break;
+        case EntranceEffect.PopUp:
+            entDesc = "Then this guest enters they gain +1 POP permanently";
+            break;
+
+        default:
+                break;
+  
+    }
+
+    switch (scoreEffect) {
+        case OnScoreEffect.MaxGuestsBonus:
+            scoreDesc = "If you have no empty seats, score 3 extra points";
+            break;
+        case OnScoreEffect.OldFriendBonus:
+            scoreDesc = "Gain plus 1 POP for each Old Friend";
+            break;
+        case OnScoreEffect.Auction:
+            scoreDesc = "Gain 1 cash for each guestx";
+            break;
+        default:
+            break;
+
+    }
+
+
+
+    if(entDesc.length > 0 && scoreDesc.length > 0){
+        entDesc += " ";
+    }
+
+    let desc = entDesc + scoreDesc;
+
+    return <div className={"info-line tool-tipped "}>
+      <div>ⓘ</div>
+        <span>{desc}</span>
+    </div>
+
+}
+
 
 export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: Guest,onClick?:()=>void }) {
 
@@ -127,8 +183,9 @@ export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: G
 
                 <div className="stats-row">
                 {guest.action != GuestAction.None &&
-                    <div className="action-row" >
+                    <div className="info-row" >
                         <ActionLine used={!guest.hasAction} action={guest.action} />
+                        <InfoLine effect={guest.entranceEffect} scoreEffect={guest.onScoreEffect} />
                     </div>
                 }
                     <StatNumber type="pop" value={guest.pop} />
