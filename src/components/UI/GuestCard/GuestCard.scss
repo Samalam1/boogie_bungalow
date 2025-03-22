@@ -1,6 +1,6 @@
 :root{
 
-    --trouble-color: #ff404a;
+    --trouble-color: #ff6600;
     --pop-color: #f7cf20;
     --cash-color: #40e283;
     --text-stroke: #333;
@@ -227,22 +227,33 @@ body{
         font-weight: bolder;
         display: flex;
         margin-top: 4px;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-
+     
+        box-sizing: border-box;
         svg{
+           
            width: .8em;
               height: .8em !important;
         }
+
+      
     }
     .trouble{
         color: var(--trouble-color);
+        border-bottom: 2px solid var(--trouble-color);
+
+    
     }
     .pop{
         color: var(--pop-color);
+        border-bottom: 2px solid var(--pop-color);
+      
     }
     .cash{
         color: var(--cash-color);
+         border-bottom: 2px solid var(--cash-color);
+       
     }
 
     .stroked-text {
@@ -250,7 +261,9 @@ body{
         border-radius: 8px;
         padding: 4px;
         font-weight: bolder;
-
+        &.negative{
+           background: #520c10;
+        }
         // text-shadow:
         // 2px 2px var(--text-stroke),
         // 2px 0 var(--text-stroke),

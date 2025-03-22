@@ -31,26 +31,32 @@ function StatNumber({ type, value }: { type: string, value: number }) {
     }
 
 
-
+    let test = value;
     let icon: any = null;
+    let desc = "";
     switch (type) {
         case "pop":
             icon = <PopIcon />;
+            desc = "POP";
             break;
         case "cash":
+            desc = "CASH";
             icon = <CashIcon />;
             break;
         case "trouble":
+            desc = "TRBL";
             icon = <TroubleIcon />
+            test*=-1;
             break;
         default:
             break;
     }
 
 
+  
+    let negative = test<0;
 
-
-    return <div className={"stroked-text stat-number " + type}>
+    return <div className={"stroked-text stat-number " + type + (negative? " negative" : "")}>
         {icon} <span>{value}</span>
     </div>
 
