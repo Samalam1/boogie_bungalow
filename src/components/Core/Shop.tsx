@@ -83,10 +83,15 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
                     setUpdateToggle(!updateToggle);
                 }
             }}
-            >             <div className="cost-line">
+            > 
+            { item.available>0?
+            
+            <div className="cost-line">
             {item.Guest.cost}
             <span>{item.available<20?"("+item.available+"/"+item.Guest.shopCount+")":"∞"}</span>
-            </div>
+            </div>:
+            <div className="cost-line">SOLD OUT</div>
+            }
                 <GuestCard guest={item.Guest} 
       
                 />
@@ -105,7 +110,7 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
         
         >
             <br/>
-           <div> 🏠+ </div>
+           <div> 🏠{`(${player.houseSpace}+)`}  </div>
            <div className="house-cash">${GetHouseUpgradePrice(player.houseSpace)}</div>
         </button>
         <button className="guest-slot" style={{height:"auto"}}

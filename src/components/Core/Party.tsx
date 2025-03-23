@@ -289,7 +289,7 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
                         key={guests[i].key ?? i} guest={guests[i]} />
                 }
                 else if (i < party.maxGuests) {
-                    return <div key={i} className="guest-slot" style={{ background: "rgba(0,0,0,.5)" }}></div>
+                    return <div key={i} className="guest-slot" style={{border:"1px solid grey", background: "black",opacity:".5" }}></div>
                 }
                 else
                     return null;
