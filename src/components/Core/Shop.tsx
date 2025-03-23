@@ -102,7 +102,7 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
         >
             <br/>
            <div> 🏠 +{player.houseSpace+1} </div>
-           <div style={{color:"darkgreen",fontSize:"1.2em",fontWeight:"bold"}}>${GetHouseUpgradePrice(player.houseSpace)}</div>
+           <div className="house-cash">${GetHouseUpgradePrice(player.houseSpace)}</div>
         </button>
         <button className="guest-slot" style={{height:"auto"}}
             onClick={() => {

@@ -206,6 +206,9 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
             setUiState(PartyState.FailTooMuchTrouble);
         }
 
+        else if(party.IsTooCrowded()){
+            setUiState(PartyState.FailTooCrowded);
+        }
 
 
     }, [party]);

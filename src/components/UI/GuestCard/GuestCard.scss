@@ -93,6 +93,16 @@ body{
 
 .shop{
 
+    button{
+    .house-cash{
+        font-weight: bold;
+        color: darkgreen;
+    }
+    &:disabled{
+        .house-cash{
+            color: grey;
+        }
+}  } 
     .shop-item{
         background:#333;
         border-radius: 12px;
