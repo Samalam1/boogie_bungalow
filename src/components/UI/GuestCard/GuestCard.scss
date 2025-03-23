@@ -9,6 +9,16 @@
     --star-color:#f7cf20;
 }
 
+#root button{
+    color:#333;
+    background: #eee;
+    &:disabled{
+        color: #363636;
+        opacity: .5;
+        cursor: default;
+    }
+}
+
 
 .guest-slot, .guest-card {
     width:100px;
@@ -267,6 +277,10 @@ body{
 
         .pop, .cash{
             animation: scoring-stat 0.4s ease-in-out forwards !important;
+        }
+
+        .action-line{
+            display: none;
         }
 
 
