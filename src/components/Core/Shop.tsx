@@ -105,7 +105,7 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
         
         >
             <br/>
-           <div> 🏠 +{player.houseSpace+1} </div>
+           <div> 🏠+ </div>
            <div className="house-cash">${GetHouseUpgradePrice(player.houseSpace)}</div>
         </button>
         <button className="guest-slot" style={{height:"auto"}}
@@ -117,7 +117,7 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
             Next Party!!
         </button>
 
-        <PLayerScoreUI key={player.pop+""+player.cash} pop={player.pop} cash={player.cash} day={day} trouble={0} />
+        <PLayerScoreUI  isFocused={false} pop={player.pop} cash={player.cash} day={day} trouble={0} />
     </div>
 
 }

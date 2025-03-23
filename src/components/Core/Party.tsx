@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EntranceEffect, Guest, GuestAction, OnScoreEffect } from "./Guests";
-import { Player, PLayerScoreUI } from "./Player";
+import { maxCash, maxPop, Player, PLayerScoreUI } from "./Player";
 import { GuestCard } from "../UI/GuestCard/GuestCard";
 
 
@@ -57,11 +57,15 @@ export class Party {
 
     ApplyCalcScore({ pop, cash }: { pop: number, cash: number }) {
         this.player.pop += pop;
-        if(this.player.pop > 60){
-            this.player.pop = 60
+        if(this.player.pop >maxPop){
+            this.player.pop = maxPop;
         }
 
+
         this.player.cash += cash;
+        if(this.player.cash > maxCash) {
+            this.player.cash = maxCash;
+        }
     }
 
     AdmitRandomGuest() {
@@ -165,7 +169,7 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
     // });
     const timeBetweenScolring = 300;
     const ScoreAndMoveNext = (number:number)=>{
-        console.timeStamp("Scoring Next");
+        setCurrentTrouble(0);
   
 
         if(number < guests.length){
@@ -311,7 +315,7 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
     </div>
     {uiState == PartyState.FailTooMuchTrouble&&<FailScreen label="Too Much Trouble!"/>}
     {uiState == PartyState.FailTooCrowded&&<FailScreen label="Too Many Guests!"/>}
-    <PLayerScoreUI pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} />
+    <PLayerScoreUI isFocused={uiState==PartyState.ScoringRound} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} />
     
     </>
 

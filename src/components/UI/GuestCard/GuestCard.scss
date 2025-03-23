@@ -39,6 +39,13 @@ body{
     justify-content: center;
     align-items: center;
     z-index: 100;
+    transition: padding 0.3s ease-in-out;
+    &.focused{
+
+        padding-top: 20px;
+   
+    }
+
     .pop{
         color: var(--pop-color);
     }
@@ -49,11 +56,19 @@ body{
         padding:0 4px;
         color: var(--trouble-color);
         &.urgent{
-            background: #690707;
+       
+            animation: urgent 1s infinite;
             border-radius: 8px;
             outline: 1px solid red;
         }
     }
+
+    .out-of{
+        color:#888;
+        font-weight: 400;
+        font-size: .8em;
+    }
+    
 
     .day{
         float: right;
@@ -90,6 +105,7 @@ body{
         box-shadow: 0 4px 20px 0 rgb(0, 0, 0);
     }
 }
+
 
 .shop{
 
@@ -199,7 +215,7 @@ body{
 }
 .action-line{
 
-    transform: scaleY(.8);
+
     box-shadow: 0 4px 0 0 #24443f;
  
     border-radius: 50px;
@@ -543,6 +559,18 @@ body{
     }
     100%{
         color: #f7cf20;
+    }
+}
+
+@keyframes urgent{
+    0%{
+        background: #3d0808;
+    }
+    50%{
+        background: #7e1616;
+    }
+    100%{
+        background: #3d0808;
     }
 }
 
