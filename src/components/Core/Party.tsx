@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { EntranceEffect, Guest, GuestAction, OnScoreEffect } from "./Guests";
 import { Player, PLayerScoreUI } from "./Player";
 import { GuestCard } from "../UI/GuestCard/GuestCard";
@@ -221,6 +221,11 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
     //     setUiState(PartyState.Normal);
     // }
 
+    useEffect(() => {
+
+        window.scrollTo(0, 0);
+
+    }, []);
 
     return <><div className="main-cont">
         <div

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Guest } from "./Guests"
 import { Player, PLayerScoreUI } from "./Player";
 import { GuestCard } from "../UI/GuestCard/GuestCard";
@@ -66,7 +66,11 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
 
     const [updateToggle,setUpdateToggle] = useState(false);
 
+    useEffect(() => {
 
+        window.scrollTo(0, 0);
+
+    }, []);
 
     return <div className="shop">
         {shop.shopItems.map((item,index) => {
