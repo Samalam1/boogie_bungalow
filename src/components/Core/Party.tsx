@@ -1,65 +1,90 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { EntranceEffect, Guest, GuestAction } from "./Guests";
-import { Player } from "./Player";
+import { EntranceEffect, Guest, GuestAction, OnScoreEffect } from "./Guests";
+import { Player, PLayerScoreUI } from "./Player";
 import { GuestCard } from "../UI/GuestCard/GuestCard";
 
 
-enum PartyState{
+enum PartyState {
     Normal,
     SelectingGuest,
     SelectingFromContacts,
+    ConfirmingInstantAction,
     FailTooMuchTrouble,
-    FailTooCrowded
+    FailTooCrowded,
+    ScoringRound,
 }
 
 export function shuffleArray<T>(array: T[]): T[] {
-    let shuffled = [...array]; // Create a copy to avoid mutating the original array
+    let shuffled = [...array]; // Create a copy to avoid mutating the original array 
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
+        const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
     }
     return shuffled;
-  }
+}
 
 
 export class Party {
-    player:Player;
+    player: Player;
     guests: Guest[] = [];
     availableGuests: Guest[];
     maxGuests = 5;
 
 
-    constructor(player:Player,maxGuests:number){
+    constructor(player: Player, maxGuests: number) {
 
         this.player = player;
         this.maxGuests = maxGuests;
-        this.availableGuests = shuffleArray([...player.rolodex]);
+        this.availableGuests = shuffleArray([...player.contacts]);
 
     }
 
 
+    CalGuestScore(guest: Guest) {
 
-    AdmitRandomGuest(){
-        if(this.availableGuests.length > 0){
+        let returnObj = { pop: guest.pop, cash: guest.cash };
+
+        switch (guest.onScoreEffect) {
+            case OnScoreEffect.MaxGuestsBonus:
+                if (this.guests.length >= this.maxGuests) {
+                    returnObj.pop += 5;
+                }
+
+        }
+
+        return returnObj;
+    }
+
+    ApplyCalcScore({ pop, cash }: { pop: number, cash: number }) {
+        this.player.pop += pop;
+        if(this.player.pop > 60){
+            this.player.pop = 60
+        }
+
+        this.player.cash += cash;
+    }
+
+    AdmitRandomGuest() {
+        if (this.availableGuests.length > 0) {
             //get a random index, remove that guest from available, and add to guests
 
 
             let nextGuest = this.availableGuests.pop();
-            if(!nextGuest){ // why doe I need to add this mr linter?? I already checked the length
+            if (!nextGuest) { // why doe I need to add this mr linter?? I already checked the length
                 return;
             }
 
-            let admitted = {...nextGuest}; // clone values so they can be modified, will need to figure out popularity
-            admitted.hasAction = (admitted.action!=GuestAction.None);
+            let admitted = { ...nextGuest }; // clone values so they can be modified, will need to figure out popularity
+            admitted.hasAction = (admitted.action != GuestAction.None);
 
-           this.guests.push(admitted);
+            this.guests.push(admitted);
             admitted.key = Math.random().toString(36).substring(7);
             this.OnEnter(admitted);
             return admitted;
         }
     }
 
-    CalculateTrouble(){
+    CalculateTrouble() {
         let trouble = 0;
         this.guests.forEach(g => {
             trouble += g.trouble;
@@ -67,12 +92,12 @@ export class Party {
         return trouble;
     }
 
-    IsTooCrowded(){
+    IsTooCrowded() {
         return this.guests.length > this.maxGuests;
     }
 
-    OnEnter(guest:Guest){
-        switch(guest.entranceEffect){
+    OnEnter(guest: Guest) {
+        switch (guest.entranceEffect) {
 
             case EntranceEffect.BringSingleGuest:
                 this.AdmitRandomGuest();
@@ -83,8 +108,8 @@ export class Party {
                 break;
             case EntranceEffect.PopUp:
                 //look up the matching guest in the player's rolodex and increment their pop in addtion to the clone of that guest that just entered
-                let permGuest = this.player.rolodex.find(g => g.name == guest.name && g.pop == guest.pop);
-                if(permGuest){
+                let permGuest = this.player.contacts.find(g => g.name == guest.name && g.pop == guest.pop);
+                if (permGuest) {
                     permGuest.pop += 1;
                 }
                 guest.pop += 1;
@@ -99,83 +124,196 @@ export class Party {
 }
 
 
-export function PartyUI({party}:{party:Party}){
-    const[guests,setGuests] = useState<Guest[]>(party.guests);
-    const [uiState, setUiState] = useState<PartyState>(PartyState.Normal);
-    const [isPeeking, setIsPeeking] = useState<boolean>(false);
-const [actionGuest, setActionGuest] = useState<Guest|undefined>(undefined);
-const guestFilter = useRef<(g:Guest)=>boolean>(()=>true);
-    const numberedArray = useMemo(()=>{
-        return Array.from(Array((party.maxGuests+2)).keys());
 
-    },[party.maxGuests]);
+export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEndGame:()=>void }) {
+    const [guests, setGuests] = useState<Guest[]>(party.guests);
+    const [uiState, setUiState] = useState<PartyState>(PartyState.Normal);
+    const [currentTrouble, setCurrentTrouble] = useState<number>(0);
+    const [playerPop, setPlayerPop] = useState<number>(party.player.pop);
+    const [playerCash, setPlayerCash] = useState<number>(party.player.cash);
+
+    const [isPeeking, setIsPeeking] = useState<boolean>(false);
+    const [actionGuest, setActionGuest] = useState<Guest | undefined>(undefined);
+    const guestFilter = useRef<(g: Guest) => boolean>(() => true);
+    const [scoringNext, setScoringNext] = useState<number>(0);
+
+    const  FailScreen=useCallback(({label}:{label:string})=>{
+
+        return <div className="fail-screen">
+            <div className="fail-alert">
+            <h4>{label}</h4>
+            <button
+            onClick={()=>{
+                onEndGame();
+            }}
+            >Next Day</button>
+            </div>
+        </div>
+    },[]);
+    
+
+    const numberedArray = useMemo(() => {
+        return Array.from(Array((party.maxGuests + 2)).keys());
+
+    }, [party.maxGuests]);
+
+    const domCardRef = useRef<HTMLDivElement[]>([]);
     // const [vals,setVals] = useState<{trouble:number,pop:number,cash:number}>({
     //     trouble:0,
     //     pop:0,
     //     cash:0
     // });
+    const timeBetweenScolring = 300;
+    const ScoreAndMoveNext = (number:number)=>{
+        console.timeStamp("Scoring Next");
+  
 
-    const OpenDoor = useCallback(()=>{
-        party.AdmitRandomGuest();
-        setGuests([...party.guests]);
+        if(number < guests.length){
 
-        // if(party.IsTooCrowded()){
-        //     setUiState(PartyState.FailTooCrowded);
-        // }
-        // else if(party.CalculateTrouble() > 2){
-        //     setUiState(PartyState.FailTooMuchTrouble);
-        // }
+            
+            let guest = guests[number];
+            console.timeStamp("Scoring");
+            console.log("guest",guest.name)
+   
+            let score = party.CalGuestScore(guest);
+            party.ApplyCalcScore(score);
+            setPlayerPop(playerPop + score.pop);
+            setPlayerCash(playerCash + score.cash);
 
-
-    },[party]);
-
-    const ResetParty =()=>{
-        setGuests([]);
-        party.guests = [];
-        party.availableGuests = shuffleArray([...party.player.rolodex]);
-        setUiState(PartyState.Normal);
+            setScoringNext(number);
+            setPlayerCash(party.player.cash);
+            setPlayerPop(party.player.pop);
+  
+            setTimeout(() => {
+                ScoreAndMoveNext(number+1);
+            }, timeBetweenScolring);
+        }
+        else{
+            setTimeout(() => {
+                onEndGame();
+            }, timeBetweenScolring);
+        }
+  
     }
 
+    const OpenDoor = useCallback(() => {
+        party.AdmitRandomGuest();
+        setGuests([...party.guests]);
+        let newTrouble = party.CalculateTrouble();
+        setCurrentTrouble(newTrouble);
 
-    return <div className="main-cont">
-             <button
+        if(newTrouble > 2){
+            setUiState(PartyState.FailTooMuchTrouble);
+        }
+
+
+
+    }, [party]);
+
+    // const ResetParty = () => {
+    //     setGuests([]);
+    //     party.guests = [];
+    //     party.availableGuests = shuffleArray([...party.player.contacts]);
+    //     setCurrentTrouble(0);
+    //     setUiState(PartyState.Normal);
+    // }
+
+
+    return <><div className="main-cont">
+        <div
+            role="button"
+            onClick={
+                uiState == PartyState.Normal && guests.length < party.maxGuests ?
+                    OpenDoor : undefined
+            }
+
+            className="door-container guest-slot" style={{ position: "relative" }}>
+            <div
+                style={{
+                    position: "absolute",
+                    left: "-4px",
+                    bottom: `${party.availableGuests.length - 4}px`,
+
+                }}
                 className="guest-slot open-door"
-                onClick={
-                uiState == PartyState.Normal && guests.length< party.maxGuests ?
-                    OpenDoor:undefined
-                }
-            >{guests.length<party.maxGuests?"🚪 Open Door":"Party Full!"}</button>
-            {
-                numberedArray.map((g,i) => {
-                    let gst = guests[i];
-                    if(i < guests.length){
-                        return <GuestCard addClass={gst.hasAction?"actionable":""}
 
-                        onClick={()=>{
-                           gst.hasAction = false;
+            >{guests.length < party.maxGuests ? "🚪 Open Door" : "Party Full!"}
+
+
+            </div>
+            {/* <div
+                style={{
+                    position:"absolute",
+                    left:"-4px",
+                    bottom: `${party.availableGuests.length - 4}px`,
+                    
+                }}
+                className="guest-slot open-door"
+               
+            >{guests.length<party.maxGuests?"🚪 Open Door":"Party Full!"}
+            
+            
+            </div> */}
+        </div>
+        {
+            numberedArray.map((g, i) => {
+      
+          
+                if (i < guests.length) {
+                    let gst = guests[i];
+                    let cls = (gst.hasAction ? "actionable" : "");
+                    if(uiState == PartyState.ScoringRound && i<=scoringNext){
+                        cls += " scoring";
+                    }
+                    return <GuestCard setRef={(dom: HTMLDivElement) => {
+                        domCardRef.current[i] = dom;
+                    }} addClass={cls}
+
+                        onClick={() => {
+                            gst.hasAction = false;
                             setGuests([...guests]);
                         }}
 
-                        key={guests[i].key??i} guest={guests[i]} />
-                    }
-                    else if(i < party.maxGuests){
-                        return <div key={i} className="guest-slot" style={{background:"rgba(0,0,0,.5)"}}></div>
-                    }
-                    else
+                        key={guests[i].key ?? i} guest={guests[i]} />
+                }
+                else if (i < party.maxGuests) {
+                    return <div key={i} className="guest-slot" style={{ background: "rgba(0,0,0,.5)" }}></div>
+                }
+                else
                     return null;
 
 
-                })
+            })
 
 
 
 
-            }
+        }
 
-<button
-                className="guest-slot"
-            onClick={ResetParty}
-            > 🛑 End Party</button>
-        </div>
+       {uiState == PartyState.Normal? <button
+            className="guest-slot"
+            onClick={() => {
+                setUiState(PartyState.ScoringRound);
+                ScoreAndMoveNext(0);
+            }}
+        > 🛑 End Party</button>:
+    <button disabled={true} className="guest-slot"></button> }
+
+
+    </div>
+    {uiState == PartyState.FailTooMuchTrouble&&<FailScreen label="Too Much Trouble!"/>}
+    {uiState == PartyState.FailTooCrowded&&<FailScreen label="Too Many Guests!"/>}
+    <PLayerScoreUI pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} />
+    
+    </>
+
+}
+
+
+export function ToastingText({ domTarget, text, t }: { domTarget: HTMLElement, t: string, text: string }) {
+
+    const center = useMemo(() => {
+        return domTarget.getBoundingClientRect().left + (domTarget.getBoundingClientRect().width / 2);
+    }, [domTarget, t]);
 
 }

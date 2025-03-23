@@ -1,12 +1,24 @@
+import { useState } from "react";
 import { Guest } from "./Guests"
-import { Player } from "./Player";
+import { Player, PLayerScoreUI } from "./Player";
+import { GuestCard } from "../UI/GuestCard/GuestCard";
 
  type GuestShopItem = {
     Guest: Guest,
     available:number
 }
 
-class Shop{
+
+function GetHouseUpgradePrice(currentCapacity:number){
+    let calc = currentCapacity-3;
+    if (calc > 12){
+        return 12;
+    }
+    return calc;
+
+}
+
+export class Shop{
 
     shopItems:GuestShopItem[] = [];
 
@@ -14,14 +26,30 @@ class Shop{
         this.shopItems = shopItems;
     }
 
+    TryBuySpace(player:Player){
+
+        console.log('try buy space');
+        if(player.cash >= GetHouseUpgradePrice(player.houseSpace)){
+            player.cash -= GetHouseUpgradePrice(player.houseSpace);
+            player.houseSpace++;
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+    
+
     TryBuyGuest(guest:Guest,player:Player){
 
-
+   
         let item = this.shopItems.find(x => x.Guest === guest);
-        if(item && item.available > 0 && item.Guest.cost <= player.cash){
+        if(item && item.available > 0 && item.Guest.cost <= player.pop){
             item.available--;
-            player.cash -= item.Guest.cost;
-            player.rolodex.push({...item.Guest}); // clone the guest
+            player.pop -= item.Guest.cost;
+            player.contacts.push({...item.Guest}); // clone the guest
             return true;
         }
         return false;
@@ -29,5 +57,63 @@ class Shop{
 
 
 
+
+}
+
+
+
+export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:number,onDone:()=>void}){
+
+    const [updateToggle,setUpdateToggle] = useState(false);
+
+
+
+    return <div className="shop">
+        {shop.shopItems.map((item,index) => {
+
+            let isBuyable = item.available >0 && item.Guest.cost <= player.pop;
+
+            return <div key={index} className={"shop-item " + (isBuyable?"":"unavailable")}
+            onClick={() => {
+                if(shop.TryBuyGuest(item.Guest,player)){
+                    setUpdateToggle(!updateToggle);
+                }
+            }}
+            >             <div className="cost-line">
+            {item.Guest.cost}
+            <span>{item.available<20?"("+item.available+"/"+item.Guest.shopCount+")":"∞"}</span>
+            </div>
+                <GuestCard guest={item.Guest} 
+      
+                />
+       
+            </div>
+        })}
+
+        <button className="guest-slot "
+        style={{height:"auto"}}
+            disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
+            onClick={() => {
+                if(shop.TryBuySpace(player)){
+                    setUpdateToggle(!updateToggle);
+                }
+            }}
+        
+        >
+            <br/>
+           <div> 🏠 +{player.houseSpace+1} </div>
+           <div style={{color:"darkgreen",fontSize:"1.2em",fontWeight:"bold"}}>${GetHouseUpgradePrice(player.houseSpace)}</div>
+        </button>
+        <button className="guest-slot" style={{height:"auto"}}
+            onClick={() => {
+                onDone();
+            }}
+        
+        >
+            Next Party!!
+        </button>
+
+        <PLayerScoreUI key={player.pop+""+player.cash} pop={player.pop} cash={player.cash} day={day} trouble={0} />
+    </div>
 
 }

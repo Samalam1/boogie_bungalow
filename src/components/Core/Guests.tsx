@@ -98,7 +98,7 @@ export function CreateGuest(guestValues:GuestParams):Guest{
         pop:guestValues.pop??defaultGuestValues.pop,
         trouble:guestValues.trouble??defaultGuestValues.trouble,
         cash:guestValues.cash??defaultGuestValues.cash,
-        shopCount:guestValues.shopCount??defaultGuestValues.shopCount,
+        shopCount:guestValues.shopCount?? (guestValues.stars&&guestValues.stars>0)?9999:defaultGuestValues.shopCount,
         cost:guestValues.cost??defaultGuestValues.cost,
         stars:guestValues.stars??defaultGuestValues.stars,
         hasAction:false,

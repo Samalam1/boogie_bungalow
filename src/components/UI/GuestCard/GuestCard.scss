@@ -23,38 +23,190 @@ body{
     background: #0d0d0e;
 }
 
-.main-cont{
-    display: flex;flex-flow: wrap;row-gap: 20px; column-gap:12px; align-items: flex-start;
+
+.player-score{
+    background: black;
+   
+    display: flex;
+    position: fixed;
+    top: 0;
+   left: 0;
+   width: 100%;
+   font-weight: bolder;
+   font-size: 16px;
+   padding: 10px;
+    gap:16px;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    .pop{
+        color: var(--pop-color);
+    }
+    .cash{
+        color: var(--cash-color);
+    }
+    .trouble{
+        padding:0 4px;
+        color: var(--trouble-color);
+        &.urgent{
+            background: #690707;
+            border-radius: 8px;
+            outline: 1px solid red;
+        }
+    }
+
+    .day{
+        float: right;
+        color: rgb(179, 179, 179);
+        position: absolute;
+        right: 50px; 
+
+    }
+
+}
+.main-cont, .shop{
+    display: flex;flex-flow: wrap;row-gap: 20px; column-gap:12px; align-items: stretch;
      justify-content: center;
 }
 
+.fail-screen{
+    position: fixed;
+    z-index: 400;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+
+    .fail-alert{
+        background: #333;
+        padding: 16px 32px;
+ 
+        border-radius: 8px;
+        box-shadow: 0 4px 20px 0 rgb(0, 0, 0);
+    }
+}
+
+.shop{
+
+    .shop-item{
+        background:#333;
+        border-radius: 12px;
+        padding-bottom: 8px;
+        cursor: pointer;
+        position: relative;
+
+        &:hover{
+            box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
+            transform: scale(1.025);
+        }
+
+        &:active{
+            transform: scale(1);
+        }
+        &.unavailable{
+            .guest-card{
+                opacity: .5 !important;
+                filter: grayscale(75%);
+               
+            }
+            cursor: default;
+            &:hover{
+                box-shadow: none;
+                transform: none;
+            }
+            .cost-line{
+                color:rgb(190, 165, 165);
+            }
+        }
+        
+    }
+    .cost-line{
+        width:100%;
+        text-align: center;
+        font-weight: bolder;
+        color: #f7cf20;
+     
+
+        span{
+            color:rgb(179, 179, 179);
+            font-weight: normal;
+            display: inline-block  ;
+            margin-left: 6px;
+            font-size: .8em;
+            position: absolute;
+            right: 4px;
+      
+        }
+    }
+
+    
+}
+
 @media screen and (max-width: 768px) {
-    .open-door{
-        position: fixed;
-        bottom: 0;
+    .door-container{
+        position: fixed !important;
+        width: 100%;
+        bottom: 0px;
+        right: 100px;
+   
         left: 0;
-        height: 100px !important;
-        width: 100% !important;
         z-index: 10;
         margin:0;
     }
 
-
+    .open-door{
+       bottom: 0 !important;
+       width: 100%;
+    }
 
     body{
-        padding-bottom: 100px;
+        padding-bottom: 150px;
+        padding-top: 60px;
         align-items: flex-start;
     }
 
 
 }
 
+.door-container{
+    user-select: none;
+    cursor: pointer;
+    background-image: linear-gradient(0deg,  #cfcfcf , #5c5c5c );
+    background-size: 2px 2px;
 
+    .open-door{
+        font-weight: bold;;
+        background-color: #eee;
+        display: flex;justify-content: center;align-items: center;
+
+        
+    }
+}
+.action-line{
+
+    transform: scaleY(.8);
+    box-shadow: 0 4px 0 0 #24443f;
+ 
+    border-radius: 50px;
+    &.used{
+        box-shadow: 0 4px 0 0 #555;
+    }
+
+}
 
 .star-icon{
     color: var(--star-color);
     font-size: 1.5em;
-    animation: wiggle 1s infinite;
+    animation: wiggle 2s infinite;
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    filter: drop-shadow(0 0 2px rgba(0,0,0,1));
 }
 
 .guest-card{
@@ -79,6 +231,15 @@ body{
         }
     }
 
+    &.scoring{
+        animation: scoring-card 0.4s ease-in-out forwards !important;
+
+        .pop, .cash{
+            animation: scoring-stat 0.4s ease-in-out forwards !important;
+        }
+
+
+    }
     .portrait{
         width: 100%;
         height: 60%;
@@ -121,6 +282,7 @@ body{
 
     .stats-row{
         justify-content: flex-end;
+        user-select: none;
     }
 
     .info-row{
@@ -158,6 +320,7 @@ body{
            
                 animation: none !important;
                 background: grey;
+                opacity: .75;
             }
         }
 
@@ -232,6 +395,8 @@ body{
     }
 
 
+
+
     .stat-number{
         font-size: 14px;
         font-weight: bolder;
@@ -249,12 +414,7 @@ body{
 
       
     }
-    .trouble{
-        color: var(--trouble-color);
-        border-bottom: 2px solid var(--trouble-color);
 
-    
-    }
     .pop{
         color: var(--pop-color);
         border-bottom: 2px solid var(--pop-color);
@@ -274,6 +434,8 @@ body{
         &.negative{
            background: #520c10;
         }
+
+
         // text-shadow:
         // 2px 2px var(--text-stroke),
         // 2px 0 var(--text-stroke),
@@ -284,6 +446,35 @@ body{
         // -2px 0 var(--text-stroke),
         //  0 0 5px var(--text-stroke);
     }
+    .trouble{
+        color: white;
+        border-bottom: 2px solid var(--trouble-color);
+        font-size: 18px;
+        line-height: 20px;
+        position: absolute;
+        top: -16px;
+        right: -16px;
+        border-radius: 50px;
+        width:30px ;
+        height: 30px;
+        line-height: 8px;
+        font-size: 1.3em;
+        background: darkred ;
+        &.negative{
+            background: #3940a3 ;
+            border-bottom: 2px solid #8a90db;
+            span{
+                margin-bottom: 2px;
+                font-size: 1.2em;
+            }
+        }
+         
+    
+        span{
+            margin-bottom: 4px;
+        }
+    }
+
 
 
 
@@ -305,15 +496,43 @@ body{
 
 }
 
-@keyframes wiggle{
+@keyframes scoring-card{
     0%{
-        transform: rotate(0deg);
+        transform: scale(1) translateY(0);
     }
     50%{
-        transform: rotate(5deg);
+        transform: scale(1.1) translateY(-2.5px);
     }
     100%{
-        transform: rotate(-5deg);
+        transform: scale(1.05) translateY(-5px);
+    }
+}
+
+
+@keyframes scoring-stat{
+    0%{
+
+        font-size: 1em;
+        transform: translateY(0);
+    }
+    50%{
+       font-size:  1.5em;  
+    }
+    100%{
+        font-size: 1.25em;
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes wiggle{
+    0%{
+        color: #f7cf20;
+    }
+    50%{
+        color: white;
+    }
+    100%{
+        color: #f7cf20;
     }
 }
 

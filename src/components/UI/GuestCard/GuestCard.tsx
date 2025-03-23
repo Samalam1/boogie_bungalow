@@ -1,4 +1,4 @@
-import { act, JSX } from "react";
+import { act, forwardRef, JSX } from "react";
 import { EntranceEffect, Guest, GuestAction, OnScoreEffect } from "../../Core/Guests";
 import "./GuestCard.scss";
 
@@ -55,9 +55,27 @@ function StatNumber({ type, value }: { type: string, value: number }) {
 
   
     let negative = test<0;
+    let str = value.toString();
+  
+    if(type=="cash"){
+        if(value<0)
+            str = str.replace("-","-$");
+        else
+            str = "$"+str;
+    }
+    if(type=="trouble"){
+        str = (value<0?"☮":"⚠") + "";
+        negative = !negative;
+    }
+    else{
+        str = (value>0?"+":"") + str;
+    }
+
+    if(value == 99)
+        str="ⓘ";
 
     return <div className={"stroked-text stat-number " + type + (negative? " negative" : "")}>
-        {icon} <span>{(value>0?"+":"")}{value}</span>
+        {icon} <span>{}{str}</span>
     </div>
 
 }
@@ -69,6 +87,8 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
     if(action == GuestAction.None)
         return null;
     let desc = "";
+
+
     switch (action) {
 
         case GuestAction.BootAdjacent:
@@ -103,7 +123,7 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             break;
     }
 
-    return <div className={"action-line tool-tipped "+(used?"used":"")}>
+    return <div onPointerDown={(e)=>e.preventDefault()} className={"action-line tool-tipped "+(used?"used":"")}>
       <div>A</div>
         <span>{desc}</span>
     </div>
@@ -127,7 +147,7 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
             entDesc = "Brings two extra guests";
             break;
         case EntranceEffect.PopUp:
-            entDesc = "Then this guest enters they gain +1 POP permanently";
+            entDesc = "When this guest enters they gain +1 POP permanently";
             break;
 
         default:
@@ -166,11 +186,26 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
 }
 
 
-export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: Guest,onClick?:()=>void }) {
+export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLDivElement)=>void,addClass?:string, guest: Guest,onClick?:()=>void }) {
     
  let path = "/guests/"+guest.name.toLowerCase().replace(' ','_').replace(".","")+".webp";
+
+ let popVal = guest.pop;
+
+ if(guest.onScoreEffect == OnScoreEffect.OldFriendBonus||
+    guest.onScoreEffect == OnScoreEffect.Auction||
+    guest.onScoreEffect == OnScoreEffect.MaxGuestsBonus
+    ){
+        popVal = 99;
+    }
+
+
+
+
+ 
     return (
-        <div className={"guest-card "+addClass}
+        <div className={"guest-card "+(addClass??"")}
+            ref={setRef}
         style={{background:guest.bg}}
             onClick={onClick}
         >
@@ -197,7 +232,7 @@ export function GuestCard({ guest,onClick,addClass }: {addClass:string, guest: G
                         <InfoLine effect={guest.entranceEffect} scoreEffect={guest.onScoreEffect} />
                     </div>
                 
-                    <StatNumber type="pop" value={guest.pop} />
+                    <StatNumber type="pop" value={popVal} />
                     <StatNumber type="cash" value={guest.cash} />
                     <StatNumber type="trouble" value={guest.trouble} />
                     {guest.stars > 0 && <StarIcon />}
