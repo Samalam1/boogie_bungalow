@@ -156,7 +156,7 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Grillmaster", cost: 5, pop: 2, action: GuestAction.BootAll }),
         CreateGuest({ name: "Athlete", cost: 6, pop: 1, cash: 1, action: GuestAction.BootAll }),
 
-        CreateGuest({ name: "Dancer", cost: 7 }),
+      //  CreateGuest({ name: "Dancer", cost: 7 }),
 
         CreateGuest({ name: "Mr. Popular", cost: 5, pop: 3, entranceEffect: EntranceEffect.BringSingleGuest }),
         CreateGuest({ name: "Celebrity", cost: 11, pop: 2, cash: 3, entranceEffect: EntranceEffect.BringTwoGuests }),
@@ -168,22 +168,22 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Caterer", cost: 5, pop: 4, cash: -1 }),
         CreateGuest({ name: "Auctioneer", cost: 9, cash: 3 }),
 
-        CreateGuest({ name: "Mascot", cost: 5, pop: 1, onScoreEffect: OnScoreEffect.OldFriendBonus }),
-        CreateGuest({ name: "Introvert", cost: 4, pop: 1 }),//, onScoreEffect: OnScoreEffect.EmptySpaceBonus }),
+        //CreateGuest({ name: "Mascot", cost: 5, pop: 1, onScoreEffect: OnScoreEffect.OldFriendBonus }),
+        // CreateGuest({ name: "Introvert", cost: 4, pop: 1 }),//, onScoreEffect: OnScoreEffect.EmptySpaceBonus }),
 
-        CreateGuest({ name: "Stylist", cost: 7, cash: -1 }),//, action: GuestAction.PermanentPop }),
-        CreateGuest({ name: "Bartender", cost: 11, pop: 1 }),//, action: GuestAction.TroubleCash }),
-        CreateGuest({ name: "Writer", cost: 8, pop: 1}),//, action: GuestAction.TroublePop }),
+        // CreateGuest({ name: "Stylist", cost: 7, cash: -1 }),//, action: GuestAction.PermanentPop }),
+        // CreateGuest({ name: "Bartender", cost: 11, pop: 1 }),//, action: GuestAction.TroubleCash }),
+        // CreateGuest({ name: "Writer", cost: 8, pop: 1}),//, action: GuestAction.TroublePop }),
 
         CreateGuest({ name: "Climber", cost: 12, entranceEffect: EntranceEffect.PopUp }),
-        CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
-        CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
-        CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.SwapStar }),
+        //CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
+        //CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
+        //CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.SwapStar }),
 
-        CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
+        //CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
         CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),
 
-        CreateGuest({ name: "Werewolf", cost: 5, pop: 4 }),//, action: GuestAction.CycleTrouble }), adds trouble to every other guest that enters (why?)
+        // CreateGuest({ name: "Werewolf", cost: 5, pop: 4 }),//, action: GuestAction.CycleTrouble }), adds trouble to every other guest that enters (why?)
         CreateGuest({ name: "Monkey", cost: 3, pop: 4, trouble: 1 }),
         CreateGuest({ name: "Rock Star", cost: 5, pop: 3, cash: 2, trouble: 1 }),
         CreateGuest({ name: "Gangster", cost: 6, cash: 4, trouble: 1 }),

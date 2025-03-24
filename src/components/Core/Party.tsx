@@ -117,10 +117,11 @@ export class Party {
             case EntranceEffect.PopUp:
                 //look up the matching guest in the player's rolodex and increment their pop in addtion to the clone of that guest that just entered
                 let permGuest = this.player.contacts.find(g => g.name == guest.name && g.pop == guest.pop);
-                if (permGuest) {
+                if (permGuest&&permGuest.pop<9) {
                     permGuest.pop += 1;
+                    guest.pop += 1;
                 }
-                guest.pop += 1;
+                
 
                 break;
             default:
