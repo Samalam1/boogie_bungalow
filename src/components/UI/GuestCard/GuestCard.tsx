@@ -53,10 +53,10 @@ function StatNumber({ type, value }: { type: string, value: number }) {
     }
 
 
-  
+
     let negative = test<0;
     let str = value.toString();
-  
+
     if(type=="cash"){
         if(value<0)
             str = str.replace("-","-$");
@@ -150,9 +150,10 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
             entDesc = "When this guest enters they gain +1 POP permanently";
             break;
 
+
         default:
                 break;
-  
+
     }
 
     switch (scoreEffect) {
@@ -162,8 +163,20 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
         case OnScoreEffect.OldFriendBonus:
             scoreDesc = "Gain plus 1 POP for each Old Friend";
             break;
+        case OnScoreEffect.EmptySpaceBonus:
+            scoreDesc = "Gain 1 pop for each empty space in your party";
+            break;
         case OnScoreEffect.Auction:
             scoreDesc = "Gain 1 cash for each guestx";
+            break;
+        case OnScoreEffect.DanceBonus:
+            scoreDesc = "X1: +1, X2: +4, X3: +9, X4: +16";
+            break;
+        case OnScoreEffect.TroubleCash:
+            scoreDesc = "Gain 2 cash for each trouble";
+            break;
+        case OnScoreEffect.TroublePop:
+            scoreDesc = "Gain 2 pop for each trouble";
             break;
         default:
             break;
@@ -187,7 +200,7 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
 
 
 export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLDivElement)=>void,addClass?:string, guest: Guest,onClick?:()=>void }) {
-    
+
  let path = "/guests/"+guest.name.toLowerCase().replace(' ','_').replace(".","")+".webp";
 
  let popVal = guest.pop;
@@ -202,7 +215,7 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
 
 
 
- 
+
     return (
         <div className={"guest-card "+(addClass??"")}
             ref={setRef}
@@ -226,12 +239,12 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
                 }
 
                 <div className="stats-row">
-                
+
                     <div className="info-row" >
                         <ActionLine used={!guest.hasAction} action={guest.action} />
                         <InfoLine effect={guest.entranceEffect} scoreEffect={guest.onScoreEffect} />
                     </div>
-                
+
                     <StatNumber type="pop" value={popVal} />
                     <StatNumber type="cash" value={guest.cash} />
                     <StatNumber type="trouble" value={guest.trouble} />

@@ -15,7 +15,7 @@ enum PartyState {
 }
 
 export function shuffleArray<T>(array: T[]): T[] {
-    let shuffled = [...array]; // Create a copy to avoid mutating the original array 
+    let shuffled = [...array]; // Create a copy to avoid mutating the original array
     for (let i = shuffled.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1)); // Random index from 0 to i
         [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
@@ -53,6 +53,56 @@ export class Party {
                 if (this.guests.length >= this.maxGuests) {
                     returnObj.pop += 5;
                 }
+                break;
+            case OnScoreEffect.OldFriendBonus:
+                let oldFriends = this.guests.filter(g => g.name == "Old Friend").length;
+                returnObj.pop += oldFriends;
+                break;
+
+
+            case OnScoreEffect.EmptySpaceBonus:
+                let emptySpace = this.maxGuests - this.guests.length;
+                returnObj.pop += emptySpace;
+                break;
+
+            case OnScoreEffect.TroubleCash:
+                let trouble = 0;
+                this.guests.forEach(g => {
+                    if(g.trouble>0)
+                    trouble += g.trouble;
+                });
+                returnObj.cash += trouble * 2;
+                break;
+            case OnScoreEffect.TroubleCash:
+                    trouble = 0;
+                    this.guests.forEach(g => {
+                        if(g.trouble>0)
+                        trouble += g.trouble;
+                    });
+                    returnObj.pop += trouble * 2;
+                    break;
+            case OnScoreEffect.DanceBonus:
+                let danceBonus = this.guests.filter(g => g.name == "Dancer").length;
+                switch (danceBonus) {
+                    case 1:
+                        returnObj.pop += 1;
+                        break;
+                    case 2:
+                        returnObj.pop += 4;
+                        break;
+                    case 3:
+                        returnObj.pop += 9;
+                        break;
+                    case 4:
+                        returnObj.pop += 16;
+                        break;
+                    default:
+                        returnObj.pop += 16;
+                        break;
+
+                }
+                break;
+
 
         }
 
@@ -121,7 +171,7 @@ export class Party {
                     permGuest.pop += 1;
                     guest.pop += 1;
                 }
-                
+
 
                 break;
             default:
@@ -315,7 +365,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 };
                 break;
 
-            
+
             default:
                 break;
         }
