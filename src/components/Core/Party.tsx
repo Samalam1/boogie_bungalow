@@ -391,6 +391,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     setPlayerCash(playerCash + score.cash);
                     setGuests([...party.guests]);
                 }
+                guest.hasAction = false ;
                 break;
 
             case GuestAction.Fetch:
@@ -407,7 +408,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     //move the selected guest to the    end of the line.
                     party.availableGuests = party.availableGuests.filter(x => x != g);
                     party.availableGuests = [...party.availableGuests, g];
-                    let set = party.guests.find(x => x.key == g.key);
+
                     guest.hasAction = false;
 
 
