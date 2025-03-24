@@ -477,9 +477,14 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
 
 
         let copy = [...party.availableGuests];
-        copy = copy.filter(guestFilter.current).sort((a, b) => a.cost - b.cost);
+        copy = copy.filter(guestFilter.current).sort((a, b) => {
+            if(a.cost==b.cost){
+                return a.name.localeCompare(b.name);
+            }
+            return a.cost - b.cost
+        });
         return <div className="main-cont">
-
+            {copy.length == 0 && <div className="guest-slot">No Guests Available</div>}
             {copy.map((g, i) => {
                 return <GuestCard addClass="selectable" onClick={() => onSelectActorEvent.current(g)} key={g.key ?? i} guest={g} />
             })}
