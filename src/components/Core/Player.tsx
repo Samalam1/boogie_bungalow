@@ -38,7 +38,7 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo,
 
     useEffect(() => {
 
-        
+
         if(cashRef.current && inCash.current != cash){
             inCash.current = cash;
             cashRef.current.animate(
@@ -69,7 +69,7 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo,
                     })
                 }
             </div>
-            <div className="day">Day {day} </div>
+            <div className="day">Day {day} <span style={{opacity:".7"}}>/25</span> </div>
            {infoline&& <div className="info-line">{infoline}
 
             {onInfo&&<button onClick={onInfo}>{cta}</button>}
@@ -77,6 +77,6 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo,
             </div>}
         </div>
 
-      
-   
+
+
 }

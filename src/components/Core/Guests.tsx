@@ -27,7 +27,8 @@ export enum GuestAction {
     SwapStar,
     Greet,
     Cheer,
-    ClearAllTrouble
+    ClearAllTrouble,
+    PermanentPop,
 }
 
 
@@ -175,7 +176,7 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Mascot", cost: 5, pop: 1, onScoreEffect: OnScoreEffect.OldFriendBonus }),
         CreateGuest({ name: "Introvert", cost: 4, pop: 1 , onScoreEffect: OnScoreEffect.EmptySpaceBonus }),
 
-        // CreateGuest({ name: "Stylist", cost: 7, cash: -1 }),//, action: GuestAction.PermanentPop }),
+        CreateGuest({ name: "Stylist", cost: 7, cash: -1 , action: GuestAction.PermanentPop }),
         CreateGuest({ name: "Bartender", cost: 11, pop: 1 , onScoreEffect: OnScoreEffect.TroubleCash }),
        CreateGuest({ name: "Writer", cost: 8, pop: 1, onScoreEffect: OnScoreEffect.TroublePop }),
 

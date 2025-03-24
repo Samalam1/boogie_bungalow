@@ -304,6 +304,18 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     setUiState(PartyState.Normal);
                 };
                 break;
+                case GuestAction.PermanentPop:
+                    setUiState(PartyState.SelectingGuest);
+                    setInfoline("Select a guest to boot");
+                    guestFilter.current = (g) => (g != guest && g.pop<9);
+                    onSelectActorEvent.current = (g) => {
+
+                        guest.hasAction = false;
+                        g.pop += 1;
+                        setInfoline(undefined);
+                        setUiState(PartyState.Normal);
+                    };
+                    break;
             case GuestAction.BootAll:
                 party.Reset();
                 setGuests([]);

@@ -121,6 +121,8 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
         case GuestAction.SwapStar:
             desc = "Swap with a star guest";
             break;
+        case GuestAction.PermanentPop:
+            desc = "Add +1 POP permanently to another guest";
     }
 
     return <div onPointerDown={(e)=>e.preventDefault()} className={"action-line tool-tipped "+(used?"used":"")}>
@@ -207,7 +209,7 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
 
  if(guest.onScoreEffect == OnScoreEffect.OldFriendBonus||
     guest.onScoreEffect == OnScoreEffect.Auction||
-    guest.onScoreEffect == OnScoreEffect.MaxGuestsBonus
+    guest.onScoreEffect == OnScoreEffect.MaxGuestsBonus || guest.onScoreEffect == OnScoreEffect.EmptySpaceBonus||guest.onScoreEffect==OnScoreEffect.DanceBonus
     ){
         popVal = 99;
     }
