@@ -323,8 +323,17 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                         }
                         setGuests([...party.guests]);
                         setInfoline(undefined);
-                        setUiState(PartyState.Normal);
 
+                        setCurrentTrouble(party.CalculateTrouble());
+
+                        if(party.CalculateTrouble() > 2){
+                            setUiState(PartyState.FailTooMuchTrouble);
+                        }
+                        else{
+                            setUiState(PartyState.Normal);
+                        }
+
+                        guest.hasAction = false;
 
                     };
                 };
@@ -363,7 +372,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 });
 
                 setGuests([...party.guests]);
-
+                guest.hasAction = false;
                 break;
             case GuestAction.BootAll:
                 party.Reset();
@@ -401,7 +410,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     let set = party.guests.find(x => x.key == g.key);
                     guest.hasAction = false;
 
-                    console.log(party.guests);
+
                     setGuests([...party.guests]);
                     //pop them
                     OpenDoor();

@@ -36,7 +36,7 @@ body{
 
 .player-score{
     background: black;
-   
+
     display: flex;
     position: fixed;
     top: 0;
@@ -53,7 +53,7 @@ body{
     &.focused{
 
         padding-top: 20px;
-   
+
     }
 
     .pop{
@@ -66,7 +66,7 @@ body{
         padding:0 4px;
         color: var(--trouble-color);
         &.urgent{
-       
+
             animation: urgent 1s infinite;
             border-radius: 8px;
             outline: 1px solid red;
@@ -86,19 +86,19 @@ body{
     justify-content: center;
     gap: 10px;
 }
-    
+
     .out-of{
         color:#888;
         font-weight: 400;
         font-size: .8em;
     }
-    
+
 
     .day{
         float: right;
         color: rgb(179, 179, 179);
         position: absolute;
-        right: 50px; 
+        right: 50px;
 
     }
 
@@ -124,7 +124,7 @@ body{
     .fail-alert{
         background: #333;
         padding: 16px 32px;
- 
+
         border-radius: 8px;
         box-shadow: 0 4px 20px 0 rgb(0, 0, 0);
     }
@@ -142,7 +142,7 @@ body{
         .house-cash{
             color: grey;
         }
-}  } 
+}  }
     .shop-item{
         background:#333;
         border-radius: 12px;
@@ -162,7 +162,7 @@ body{
             .guest-card{
                 opacity: .5 !important;
                 filter: grayscale(75%);
-               
+
             }
             cursor: default;
             &:hover{
@@ -173,14 +173,14 @@ body{
                 color:rgb(190, 165, 165);
             }
         }
-        
+
     }
     .cost-line{
         width:100%;
         text-align: center;
         font-weight: bolder;
         color: #f7cf20;
-     
+
 
         span{
             color:rgb(179, 179, 179);
@@ -190,11 +190,11 @@ body{
             font-size: .8em;
             position: absolute;
             right: 4px;
-      
+
         }
     }
 
-    
+
 }
 
 @media screen and (max-width: 768px) {
@@ -203,9 +203,9 @@ body{
         width: 100%;
         bottom: 0px;
         right: 100px;
-   
+
         left: 0;
-        z-index: 10;
+        z-index: 2000;
         margin:0;
     }
 
@@ -239,14 +239,14 @@ body{
         display: flex;justify-content: center;align-items: center;
         color:#333;
 
-        
+
     }
 }
 .action-line{
 
 
     box-shadow: 0 4px 0 0 #24443f;
- 
+
     border-radius: 50px;
     &.used{
         box-shadow: 0 4px 0 0 #555;
@@ -268,9 +268,9 @@ body{
     cursor: pointer;
     box-shadow:  0 0  20px 10px #ffffffb4 !important;
     border:2px dashed rgb(255, 255, 255);
- 
+
     &:hover{
-      
+
         transform: scale(1.025);
     }
 }
@@ -333,7 +333,7 @@ body{
         &.small{
             font-size: 10px;
         }
-        
+
     }
 
 
@@ -375,7 +375,7 @@ body{
             justify-content: center;
             width:32px;
             height: 32px;
-            background:var(--action-color); 
+            background:var(--action-color);
             color: white;
             border-radius: 50px;
             animation: action-active-anim 2s infinite;
@@ -386,7 +386,7 @@ body{
 
         &.used{
             div{
-           
+
                 animation: none !important;
                 background: grey;
                 opacity: .75;
@@ -445,7 +445,7 @@ body{
                 opacity: 1;
                 display: block;
                 transition: .2s ease-in-out;
-                
+
             }
 
         }
@@ -473,7 +473,7 @@ body{
         margin-top: 4px;
         justify-content: center;
         align-items: center;
-     
+
         box-sizing: border-box;
         svg{
             display: none;
@@ -481,18 +481,18 @@ body{
               height: .8em !important;
         }
 
-      
+
     }
 
     .pop{
         color: var(--pop-color);
         border-bottom: 2px solid var(--pop-color);
-      
+
     }
     .cash{
         color: var(--cash-color);
          border-bottom: 2px solid var(--cash-color);
-       
+
     }
 
     .stroked-text {
@@ -537,8 +537,8 @@ body{
                 font-size: 1.2em;
             }
         }
-         
-    
+
+
         span{
             margin-bottom: 4px;
         }
@@ -585,7 +585,7 @@ body{
         transform: translateY(0);
     }
     50%{
-       font-size:  1.5em;  
+       font-size:  1.5em;
     }
     100%{
         font-size: 1.25em;
@@ -628,5 +628,3 @@ body{
         background: var(--action-color);
     }
 }
-
-
