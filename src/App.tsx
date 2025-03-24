@@ -10,7 +10,13 @@ import { CreateDefualtPlayer, Game } from './components/Core/Game'
 import { Shop, ShopUI } from './components/Core/Shop'
 
 function InitializeNewGame(){
-  const game = new Game();
+
+  let seed = undefined;
+  if(window.location.href.includes("?seed=")){
+    seed = window.location.href.split("?seed=")[1];
+  }
+
+  const game = new Game(seed);
   const player = game.player;
 
   game.party = new Party(player, player.houseSpace);
@@ -26,17 +32,19 @@ function App() {
 
   return (
     <>
-    {betweenRounds && <ShopUI day={game.day} player={game.player} shop={game.shop} onDone={()=>{
+    {betweenRounds && <ShopUI seed={game.seed} day={game.day} player={game.player} shop={game.shop} onDone={()=>{
 
       game.party = new Party(game.player, game.player.houseSpace);
       setBetweenRounds(false);
-      
+
       }} />}
-     {game.party&&!betweenRounds&& <PartyUI party={game.party} day={game.day} onEndGame={()=>{
+     {game.party&&!betweenRounds&& <PartyUI party={game.party}
+
+     day={game.day} onEndGame={()=>{
       setBetweenRounds(true);
       game.day++;
 
- 
+
 
      }} /> }
     </>

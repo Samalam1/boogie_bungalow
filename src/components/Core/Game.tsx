@@ -3,7 +3,7 @@ import { Party, shuffleArray } from './Party';
 import { Player } from './Player';
 import { Shop } from './Shop'; // Adjust the path as necessary
 
-export function CreateRandomShop(){
+export function CreateRandomShop(seed?:string){
 
     let nonStars = GetMasterGuestList().filter(x => x.stars<=0);
     let stars = [...GetMasterGuestList().filter(x => x.stars>0)];
@@ -12,6 +12,14 @@ export function CreateRandomShop(){
     let rStars = shuffleArray(stars).slice(0,2);
 
     let allGuests = [...rGuests,...rStars].sort((a,b) => a.cost - b.cost);
+
+    if(seed){
+        let numbs = seed.split("_").map(x => parseInt(x));
+        allGuests = [];
+        for(let i = 0;i<numbs.length;i++){
+            allGuests.push({...GetMasterGuestList()[numbs[i]]});
+        }
+    }
 
   return new Shop(allGuests.map(x => {return {Guest:x,available:x.shopCount}}));
 }
@@ -42,14 +50,18 @@ export class Game{
     player:Player;
     party:Party|null = null;
     day:number = 1;
-    constructor(){
+    seed:string = "";
+    constructor(inseed?:string){
         this.player = CreateDefualtPlayer();
-        this.shop = CreateRandomShop();
+        this.shop = CreateRandomShop(inseed);
 
-
+        if(inseed)
+            this.seed = inseed;
+        else{
+            this.seed = this.shop.shopItems.map(x => GetMasterGuestList().indexOf(x.Guest)).join("_");
+        }
 
 
     }
 
 }
-

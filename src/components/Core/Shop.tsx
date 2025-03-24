@@ -62,9 +62,10 @@ export class Shop{
 
 
 
-export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:number,onDone:()=>void}){
+export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Player,shop:Shop,day:number,onDone:()=>void}){
 
     const [updateToggle,setUpdateToggle] = useState(false);
+    const [inContacts,setInContacts] = useState(player.contacts);
 
     useEffect(() => {
 
@@ -114,7 +115,12 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
         })}
 
 
-
+        {seed && <div className="seed-display"
+        onClick={()=>{
+            navigator.clipboard.writeText(window.location.href.split("?")[0]+"?seed="+seed);
+        }}
+            style={{padding:"4px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0"}}
+        >{window.location.href.split("?")[0]+"?seed="+seed}</div>}
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
     </div>
