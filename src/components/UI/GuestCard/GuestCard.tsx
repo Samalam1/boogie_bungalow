@@ -72,7 +72,7 @@ function StatNumber({ type, value }: { type: string, value: number }) {
     }
 
     if(value == 99)
-        str="ⓘ";
+        str="??";
 
     return <div className={"stroked-text stat-number " + type + (negative? " negative" : "")}>
         {icon} <span>{}{str}</span>

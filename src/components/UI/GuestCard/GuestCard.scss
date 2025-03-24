@@ -73,6 +73,20 @@ body{
         }
     }
 
+
+    .info-line{
+        width: 100%;
+    position: absolute;
+    top: 100%;
+    color: white;
+    display: flex;
+    padding: 10px;
+    background: #444;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+    
     .out-of{
         color:#888;
         font-weight: 400;
@@ -250,6 +264,16 @@ body{
     filter: drop-shadow(0 0 2px rgba(0,0,0,1));
 }
 
+.selectable{
+    cursor: pointer;
+    box-shadow:  0 0  20px 10px #ffffffb4 !important;
+    border:2px dashed rgb(255, 255, 255);
+ 
+    &:hover{
+      
+        transform: scale(1.025);
+    }
+}
 .guest-card{
     user-select: none;
     position: relative;

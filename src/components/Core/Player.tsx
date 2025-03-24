@@ -29,7 +29,7 @@ const pulseTiming = {
     iterations: 1,
   };
 
-export function PLayerScoreUI({cash, pop, trouble,day,isFocused }: { pop: number,cash: number, trouble: number,day:number,isFocused:boolean }) {
+export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo}: {infoline?:string,onInfo?:()=>void, pop: number,cash: number, trouble: number,day:number,isFocused:boolean }) {
 
     const cashRef = useRef<HTMLDivElement>(null);
     const popRef = useRef<HTMLDivElement>(null);
@@ -59,8 +59,7 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused }: { pop: number
         }
     },[pop])
 
-    return <div>
-        <div className={"player-score" + (isFocused?" focused":"")} >
+    return  <div className={"player-score" + (isFocused?" focused":"")} >
             <div ref={popRef} className="pop"><i>🔥</i>{pop}<span className="out-of">/{maxPop} </span></div>
             <div ref={cashRef} className="cash"><i>$</i> {cash}<span className="out-of">/{maxCash}</span></div>
             <div className={"trouble " +(trouble==2?"urgent":"")}style={{fontSize:"1.25em", display: "flex", gap: "4px" }}>
@@ -71,8 +70,13 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused }: { pop: number
                 }
             </div>
             <div className="day">Day {day} </div>
+           {infoline&& <div className="info-line">{infoline}
+
+            {onInfo&&<button onClick={onInfo}>Cancel</button>}
+
+            </div>}
         </div>
 
       
-    </div>
+   
 }

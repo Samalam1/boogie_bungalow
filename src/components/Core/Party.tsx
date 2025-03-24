@@ -31,6 +31,7 @@ export class Party {
     maxGuests = 5;
 
 
+
     constructor(player: Player, maxGuests: number) {
 
         this.player = player;
@@ -39,7 +40,10 @@ export class Party {
 
     }
 
-
+    Reset(){
+        this.availableGuests = shuffleArray([...this.player.contacts]);
+        this.guests = [];
+    }
     CalGuestScore(guest: Guest) {
 
         let returnObj = { pop: guest.pop, cash: guest.cash };
@@ -139,8 +143,9 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
     const [isPeeking, setIsPeeking] = useState<boolean>(false);
     const [actionGuest, setActionGuest] = useState<Guest | undefined>(undefined);
     const guestFilter = useRef<(g: Guest) => boolean>(() => true);
+    const [infoLine,setInfoline] = useState<string|undefined>(undefined);
     const [scoringNext, setScoringNext] = useState<number>(0);
-
+    const onSelectActorEvent = useRef<(g: Guest) => void>(() => { });
     const  FailScreen=useCallback(({label}:{label:string})=>{
 
         return <div className="fail-screen">
@@ -213,7 +218,7 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
         else if(party.IsTooCrowded()){
             setUiState(PartyState.FailTooCrowded);
         }
-
+        setIsPeeking(false);
 
     }, [party]);
 
@@ -231,7 +236,64 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
 
     }, []);
 
+
+    const UseAction=(guest: Guest)=> {
+
+        switch (guest.action) {
+            case GuestAction.Boot:
+                setUiState(PartyState.SelectingGuest);
+                setInfoline("Select a guest to boot");
+                guestFilter.current = (g) => g != guest;
+                onSelectActorEvent.current = (g) => {
+                    let newArr = guests.filter(x => x != g);
+                    guest.hasAction = false;
+                    setGuests(newArr);
+                    party.guests = [...newArr];
+                    setInfoline(undefined);
+                    setUiState(PartyState.Normal);
+                };
+                break;
+            case GuestAction.BootAll:
+                party.Reset();
+                setGuests([]);
+
+                break;
+            case GuestAction.Peek:
+                    setIsPeeking(true);
+                    guest.hasAction = false;
+                    break;
+            default:
+                break;
+        }
+     
+
+     
+    }
+
+    // const OnFinalizeAction=(guest:Guest)=>{
+      
+    //     switch (guest.action) {
+  
+    //         case GuestAction.BootAll:
+    //             party.Reset();
+    //             setGuests([]);
+    //             break;
+
+    //     }
+
+    //     guest.hasAction = false;
+        
+    // }
+
+   
+
     return <><div className="main-cont">
+
+       {isPeeking&& <div style={{opacity:".5",cursor:"default",position:"relative"}} className="peek-container">
+           <span style={{position:"absolute",top:"-30px",left:"4px",color:"white"}}> Next Guest:</span>
+            <GuestCard guest={party.availableGuests[party.availableGuests.length - 1]} />
+        </div>
+}
         <div
             role="button"
             onClick={
@@ -253,19 +315,7 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
 
 
             </div>
-            {/* <div
-                style={{
-                    position:"absolute",
-                    left:"-4px",
-                    bottom: `${party.availableGuests.length - 4}px`,
-                    
-                }}
-                className="guest-slot open-door"
-               
-            >{guests.length<party.maxGuests?"🚪 Open Door":"Party Full!"}
-            
-            
-            </div> */}
+
         </div>
         {
             numberedArray.map((g, i) => {
@@ -277,14 +327,22 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
                     if(uiState == PartyState.ScoringRound && i<=scoringNext){
                         cls += " scoring";
                     }
+
+                    let onClickEvent = (gst.hasAction)?()=> UseAction(gst):undefined;
+
+                   
+
+                    if(uiState == PartyState.SelectingGuest&&guestFilter.current(gst)){
+                        cls += " selectable";
+                        onClickEvent = ()=> onSelectActorEvent.current(gst);
+                    }
+
+
                     return <GuestCard setRef={(dom: HTMLDivElement) => {
                         domCardRef.current[i] = dom;
                     }} addClass={cls}
 
-                        onClick={() => {
-                            gst.hasAction = false;
-                            setGuests([...guests]);
-                        }}
+                        onClick={onClickEvent}
 
                         key={guests[i].key ?? i} guest={guests[i]} />
                 }
@@ -315,7 +373,15 @@ export function PartyUI({ party,day,onEndGame  }: { party: Party,day:number,onEn
     </div>
     {uiState == PartyState.FailTooMuchTrouble&&<FailScreen label="Too Much Trouble!"/>}
     {uiState == PartyState.FailTooCrowded&&<FailScreen label="Too Many Guests!"/>}
-    <PLayerScoreUI isFocused={uiState==PartyState.ScoringRound} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} />
+    <PLayerScoreUI
+    infoline={infoLine}
+    onInfo={()=>{
+        setInfoline(undefined);
+        guestFilter.current = ()=>true;
+        setUiState(PartyState.Normal);
+        setActionGuest(undefined);
+    }}
+    isFocused={uiState==PartyState.ScoringRound} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} />
     
     </>
 

@@ -20,7 +20,7 @@ function InitializeNewGame(){
 function App() {
 
   const [game, setGame] = useState(InitializeNewGame());
-  const [betweenRounds, setBetweenRounds] = useState(false);
+  const [betweenRounds, setBetweenRounds] = useState(true);
 
 
 
