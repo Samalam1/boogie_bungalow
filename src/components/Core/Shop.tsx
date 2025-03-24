@@ -119,7 +119,7 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
         onClick={()=>{
             navigator.clipboard.writeText(window.location.href.split("?")[0]+"?seed="+seed);
         }}
-            style={{padding:"4px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0"}}
+            style={{padding:"4px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all"}}
         >{window.location.href.split("?")[0]+"?seed="+seed}</div>}
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
