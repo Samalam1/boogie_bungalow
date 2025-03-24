@@ -115,12 +115,20 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
         })}
 
 
-        {seed && <div className="seed-display"
+        {seed &&<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}> <div className="seed-display"
         onClick={()=>{
             navigator.clipboard.writeText(window.location.href.split("?")[0]+"?seed="+seed);
         }}
-            style={{padding:"4px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all"}}
-        >{"copy seed url 📋"}</div>}
+            style={{padding:"8px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all",userSelect:"none",marginBottom:"16px"}}
+        >{"copy seed url 📋"}</div>
+    <div className="seed-display"
+        onClick={()=>{
+           if(window.confirm("Are you sure you want to start a new game?")){
+               window.location.href = window.location.href.split("?")[0];
+           }
+        }}
+            style={{padding:"8px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all",userSelect:"none"}}
+        >{"Start New Game"}</div></div>}
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
     </div>
