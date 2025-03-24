@@ -183,7 +183,7 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Climber", cost: 12, entranceEffect: EntranceEffect.PopUp }),
         CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
         CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
-        CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.Fetch }),
+        CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.SwapStar }),
 
         CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
         CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),

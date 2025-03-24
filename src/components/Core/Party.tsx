@@ -304,6 +304,31 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     setUiState(PartyState.Normal);
                 };
                 break;
+
+            case GuestAction.SwapStar:
+                setUiState(PartyState.SelectingGuest);
+                setInfoline("Select a guest to swap");
+                guestFilter.current = (g) => g != guest;
+                onSelectActorEvent.current = (g) => {
+                    let star = g.stars;
+                    setUiState(PartyState.SelectingFromContacts);
+                    guestFilter.current = (g) => g.stars != star;
+                    onSelectActorEvent.current = (gs) => {
+                        party.availableGuests = party.availableGuests.filter(x => x != gs);
+                        party.availableGuests = [...party.availableGuests, g];
+                        party.availableGuests = shuffleArray(party.availableGuests);
+                        let index = party.guests.findIndex(x => x == g);
+                        if(index>0){
+                            party.guests[index] = gs;
+                        }
+                        setGuests([...party.guests]);
+                        setInfoline(undefined);
+                        setUiState(PartyState.Normal);
+
+
+                    };
+                };
+                break;
             case GuestAction.BootAdjacent:
                 setUiState(PartyState.SelectingGuest);
                 setInfoline("Select a guest to boot, guest to their right will also be booted");
