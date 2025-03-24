@@ -68,19 +68,19 @@ export class Party {
             case OnScoreEffect.TroubleCash:
                 let trouble = 0;
                 this.guests.forEach(g => {
-                    if(g.trouble>0)
-                    trouble += g.trouble;
+                    if (g.trouble > 0)
+                        trouble += g.trouble;
                 });
                 returnObj.cash += trouble * 2;
                 break;
             case OnScoreEffect.TroubleCash:
-                    trouble = 0;
-                    this.guests.forEach(g => {
-                        if(g.trouble>0)
+                trouble = 0;
+                this.guests.forEach(g => {
+                    if (g.trouble > 0)
                         trouble += g.trouble;
-                    });
-                    returnObj.pop += trouble * 2;
-                    break;
+                });
+                returnObj.pop += trouble * 2;
+                break;
             case OnScoreEffect.DanceBonus:
                 let danceBonus = this.guests.filter(g => g.name == "Dancer").length;
                 switch (danceBonus) {
@@ -167,7 +167,7 @@ export class Party {
             case EntranceEffect.PopUp:
                 //look up the matching guest in the player's rolodex and increment their pop in addtion to the clone of that guest that just entered
                 let permGuest = this.player.contacts.find(g => g.name == guest.name && g.pop == guest.pop);
-                if (permGuest&&permGuest.pop<9) {
+                if (permGuest && permGuest.pop < 9) {
                     permGuest.pop += 1;
                     guest.pop += 1;
                 }
@@ -304,22 +304,59 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     setUiState(PartyState.Normal);
                 };
                 break;
-                case GuestAction.PermanentPop:
-                    setUiState(PartyState.SelectingGuest);
-                    setInfoline("Select a guest to boot");
-                    guestFilter.current = (g) => (g != guest && g.pop<9);
-                    onSelectActorEvent.current = (g) => {
+            case GuestAction.BootAdjacent:
+                setUiState(PartyState.SelectingGuest);
+                setInfoline("Select a guest to boot, guest to their right will also be booted");
+                guestFilter.current = (g) => g != guest;
+                onSelectActorEvent.current = (g) => {
+                    let index = guests.findIndex(x => x == g);
+                    let newArr = guests.filter((x, i) => i != index && i != index + 1);
 
-                        guest.hasAction = false;
-                        g.pop += 1;
-                        setInfoline(undefined);
-                        setUiState(PartyState.Normal);
-                    };
-                    break;
+                    guest.hasAction = false;
+                    setGuests(newArr);
+                    party.guests = [...newArr];
+                    setInfoline(undefined);
+                    setUiState(PartyState.Normal);
+                };
+                break;
+            case GuestAction.PermanentPop:
+                setUiState(PartyState.SelectingGuest);
+                setInfoline("Select a guest to boot");
+                guestFilter.current = (g) => (g != guest && g.pop < 9);
+                onSelectActorEvent.current = (g) => {
+
+                    guest.hasAction = false;
+                    g.pop += 1;
+                    setInfoline(undefined);
+                    setUiState(PartyState.Normal);
+                };
+                break;
+            case GuestAction.Cheer:
+                let guestList = party.guests.filter(g => g.action != GuestAction.Cheer);
+                guestList.forEach(g => {
+                    g.hasAction = true;
+                });
+
+                setGuests([...party.guests]);
+
+                break;
             case GuestAction.BootAll:
                 party.Reset();
                 setGuests([]);
 
+                break;
+            case GuestAction.Greet:
+                if(party.guests.length >= party.maxGuests){
+                    return;
+                }
+                let admitted = party.AdmitNextGuest();
+                if (admitted) {
+                    let score = party.CalGuestScore(admitted);
+                    party.ApplyCalcScore(score);
+                    setPlayerPop(playerPop + score.pop);
+                    setPlayerCash(playerCash + score.cash);
+                    setGuests([...party.guests]);
+                }
                 break;
 
             case GuestAction.Fetch:
@@ -411,15 +448,15 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
             {copy.map((g, i) => {
                 return <GuestCard addClass="selectable" onClick={() => onSelectActorEvent.current(g)} key={g.key ?? i} guest={g} />
             })}
-        <PLayerScoreUI
-            infoline={infoLine}
-            onInfo={() => {
-                setInfoline(undefined);
-                guestFilter.current = () => true;
-                setUiState(PartyState.Normal);
-                setActionGuest(undefined);
-            }}
-            isFocused={false} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} cta="Cancel" />
+            <PLayerScoreUI
+                infoline={infoLine}
+                onInfo={() => {
+                    setInfoline(undefined);
+                    guestFilter.current = () => true;
+                    setUiState(PartyState.Normal);
+                    setActionGuest(undefined);
+                }}
+                isFocused={false} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} cta="Cancel" />
         </div>
 
     }

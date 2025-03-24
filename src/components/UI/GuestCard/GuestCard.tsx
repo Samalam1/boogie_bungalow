@@ -92,7 +92,7 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
     switch (action) {
 
         case GuestAction.BootAdjacent:
-            desc = "Boot two adjecent guests";
+            desc = "Boot two adjecent guests (right of selected)";
             break;
         case GuestAction.Boot:
             desc = "Boot a guest";
@@ -101,7 +101,7 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             desc = "Clear all trouble";
             break;
         case GuestAction.Cheer:
-            desc = "Let's one guest use their action again";
+            desc = "Refresh all other actions";
             break;
         case GuestAction.Fetch:
             desc = "Fetch a guest from your rolodex";
@@ -123,6 +123,10 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             break;
         case GuestAction.PermanentPop:
             desc = "Add +1 POP permanently to another guest";
+            break;
+
+        default:
+            break;
     }
 
     return <div onPointerDown={(e)=>e.preventDefault()} className={"action-line tool-tipped "+(used?"used":"")}>

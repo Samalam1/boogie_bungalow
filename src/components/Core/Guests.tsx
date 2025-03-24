@@ -181,11 +181,11 @@ export function InitializeMasterGuestList(){
        CreateGuest({ name: "Writer", cost: 8, pop: 1, onScoreEffect: OnScoreEffect.TroublePop }),
 
         CreateGuest({ name: "Climber", cost: 12, entranceEffect: EntranceEffect.PopUp }),
-        //CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
-        //CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
+        CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
+        CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
         CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.Fetch }),
 
-        //CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
+        CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
         CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),
 
         // CreateGuest({ name: "Werewolf", cost: 5, pop: 4 }),//, action: GuestAction.CycleTrouble }), adds trouble to every other guest that enters (why?)
