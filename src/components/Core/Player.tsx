@@ -29,7 +29,7 @@ const pulseTiming = {
     iterations: 1,
   };
 
-export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo}: {infoline?:string,onInfo?:()=>void, pop: number,cash: number, trouble: number,day:number,isFocused:boolean }) {
+export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo,cta}: {cta?:string,infoline?:string,onInfo?:()=>void, pop: number,cash: number, trouble: number,day:number,isFocused:boolean }) {
 
     const cashRef = useRef<HTMLDivElement>(null);
     const popRef = useRef<HTMLDivElement>(null);
@@ -72,7 +72,7 @@ export function PLayerScoreUI({cash, pop, trouble,day,isFocused,infoline,onInfo}
             <div className="day">Day {day} </div>
            {infoline&& <div className="info-line">{infoline}
 
-            {onInfo&&<button onClick={onInfo}>Cancel</button>}
+            {onInfo&&<button onClick={onInfo}>{cta}</button>}
 
             </div>}
         </div>

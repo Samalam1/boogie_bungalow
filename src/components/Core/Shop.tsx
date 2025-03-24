@@ -111,18 +111,11 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
         >
             <br/>
            <div> 🏠{`(${player.houseSpace}+)`}  </div>
-           <div className="house-cash">${GetHouseUpgradePrice(player.houseSpace)}</div>
-        </button>
-        <button className="guest-slot" style={{height:"auto"}}
-            onClick={() => {
-                onDone();
-            }}
-        
-        >
-            Next Party!!
+           <div className="house-cash ">${GetHouseUpgradePrice(player.houseSpace)}</div>
         </button>
 
-        <PLayerScoreUI  isFocused={false} pop={player.pop} cash={player.cash} day={day} trouble={0} />
+
+        <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
     </div>
 
 }
