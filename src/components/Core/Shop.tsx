@@ -40,11 +40,11 @@ export class Shop{
 
 
 
-    
+
 
     TryBuyGuest(guest:Guest,player:Player){
 
-   
+
         let item = this.shopItems.find(x => x.Guest === guest);
         if(item && item.available > 0 && item.Guest.cost <= player.pop){
             item.available--;
@@ -73,6 +73,20 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
     }, []);
 
     return <div className="shop">
+                <button className="guest-slot "
+        style={{height:"auto"}}
+            disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
+            onClick={() => {
+                if(shop.TryBuySpace(player)){
+                    setUpdateToggle(!updateToggle);
+                }
+            }}
+
+        >
+            <br/>
+           <div> 🏠{`(${player.houseSpace}+)`}  </div>
+           <div className="house-cash ">${GetHouseUpgradePrice(player.houseSpace)}</div>
+        </button>
         {shop.shopItems.map((item,index) => {
 
             let isBuyable = item.available >0 && item.Guest.cost <= player.pop;
@@ -83,36 +97,23 @@ export function ShopUI({player,shop,onDone,day}:{player:Player,shop:Shop,day:num
                     setUpdateToggle(!updateToggle);
                 }
             }}
-            > 
+            >
             { item.available>0?
-            
+
             <div className="cost-line">
             {item.Guest.cost}
             <span>{item.available<20?"("+item.available+"/"+item.Guest.shopCount+")":"∞"}</span>
             </div>:
             <div className="cost-line">SOLD OUT</div>
             }
-                <GuestCard guest={item.Guest} 
-      
+                <GuestCard guest={item.Guest}
+
                 />
-       
+
             </div>
         })}
 
-        <button className="guest-slot "
-        style={{height:"auto"}}
-            disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
-            onClick={() => {
-                if(shop.TryBuySpace(player)){
-                    setUpdateToggle(!updateToggle);
-                }
-            }}
-        
-        >
-            <br/>
-           <div> 🏠{`(${player.houseSpace}+)`}  </div>
-           <div className="house-cash ">${GetHouseUpgradePrice(player.houseSpace)}</div>
-        </button>
+
 
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
