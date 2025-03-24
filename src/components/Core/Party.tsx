@@ -399,7 +399,15 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
             {copy.map((g, i) => {
                 return <GuestCard addClass="selectable" onClick={() => onSelectActorEvent.current(g)} key={g.key ?? i} guest={g} />
             })}
-
+        <PLayerScoreUI
+            infoline={infoLine}
+            onInfo={() => {
+                setInfoline(undefined);
+                guestFilter.current = () => true;
+                setUiState(PartyState.Normal);
+                setActionGuest(undefined);
+            }}
+            isFocused={false} pop={playerPop} cash={playerCash} day={day} trouble={currentTrouble} cta="Cancel" />
         </div>
 
     }
