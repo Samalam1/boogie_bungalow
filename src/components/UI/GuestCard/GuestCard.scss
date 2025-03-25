@@ -427,6 +427,7 @@ max-height: 162px;
     .stats-row {
         justify-content: flex-end;
         user-select: none;
+        margin-right: -6px;
     }
 
     .info-row {
