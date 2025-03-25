@@ -38,7 +38,11 @@ function App() {
   const loadGame = useMemo(()=>()=>{
     const savedGame = localStorage.getItem("game");
     if(savedGame){
-      setGame(JSON.parse(savedGame));
+      let gme:Game= JSON.parse(savedGame);
+      gme.shop = new Shop(gme.shop.shopItems);
+
+
+      setGame(gme);
       window.alert("Game loaded");
     }
     else{

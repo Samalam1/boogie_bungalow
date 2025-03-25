@@ -229,7 +229,7 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
             ref={setRef}
         style={{background:guest.bg}}
             onClick={(e)=>{
-                console.log("click");
+
                 let target = e.target;
                 if(target){
                     let parent:any = target as HTMLElement;
@@ -238,12 +238,12 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
                             e.stopPropagation();
                             e.preventDefault();
                             return;
-                            
+
                         }
                         parent = parent.parentElement;
                     }
                 }
-                
+
                 onClick&&onClick();
             }}
         >

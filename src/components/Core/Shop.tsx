@@ -131,7 +131,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
 
             return <div key={index + item.Guest.name} className={"shop-item " + (isBuyable ? "" : "unavailable")}
                 onClick={() => {
-                    window.alert("CLICKING");
+
 
                     if (shop.TryBuyGuest(item.Guest, player)) {
                         setUpdateToggle(!updateToggle);
