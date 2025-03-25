@@ -266,7 +266,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
         }
         else {
             setTimeout(() => {
-                if(party.guests.filter(g=>g.stars>3)){
+                if(party.guests.filter(g=>g.stars>3).length>3){
                     onEndGame(true);
                 }
                 else{
