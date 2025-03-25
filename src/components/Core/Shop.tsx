@@ -111,7 +111,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
     }
 
     return <div className="shop">
-        <div style={{width:"100%", textAlign:"center"}}>SHOP</div>
+        <h4 style={{width:"100%",margin:"0",padding:"0", textAlign:"center"}}>SHOP</h4>
         <button className="guest-slot "
             style={{ height: "auto" }}
             disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
