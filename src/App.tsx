@@ -58,6 +58,7 @@ function App() {
 
     background-image:url(/confetti.gif) !important;
     background-size:cover;
+    padding-top:60px !important;
   }
 
   `
