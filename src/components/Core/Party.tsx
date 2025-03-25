@@ -276,6 +276,12 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
         let newTrouble = party.CalculateTrouble();
         setCurrentTrouble(newTrouble);
 
+        let nextCount = guests.length;
+        let dom = document.querySelector(".empty-slot-" + nextCount);
+        if (dom) {
+            dom.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+
         if (newTrouble > 2) {
             setUiState(PartyState.FailTooMuchTrouble);
         }
@@ -596,7 +602,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                         key={guests[i].key ?? i} guest={guests[i]} />
                 }
                 else if (i < party.maxGuests) {
-                    return <div key={i} className="guest-slot" style={{ border: "1px solid grey", background: "black", opacity: ".5" }}></div>
+                    return <div key={i} className={"guest-slot empty-slot-"+i} style={{ border: "1px solid grey", background: "black", opacity: ".5" }}></div>
                 }
                 else
                     return null;
