@@ -29,7 +29,6 @@ function App() {
   const [game, setGame] = useState(InitializeNewGame());
   const [betweenRounds, setBetweenRounds] = useState(true);
   const [GameEndMessage, setGameEndMessage] = useState("");
-  const [newKey, setNewKey] = useState(0);
 
   const saveGame = useMemo(()=>()=>{
     localStorage.setItem("game",JSON.stringify(game));
@@ -45,9 +44,7 @@ function App() {
     else{
       window.alert("No saved game found");
     }
-    setNewKey(newKey+1);
-
-  },[game,newKey]);
+  },[game]);
 
   if(GameEndMessage.length>2){
     return <><h1 style={{color:"white"}}>{GameEndMessage}</h1>
@@ -64,7 +61,7 @@ function App() {
 
   return (
     <>
-    {betweenRounds && <ShopUI key={newKey} onSave={saveGame} onLoad={loadGame} seed={game.seed} day={game.day} player={game.player} shop={game.shop} onDone={()=>{
+    {betweenRounds && <ShopUI  onSave={saveGame} onLoad={loadGame} seed={game.seed} day={game.day} player={game.player} shop={game.shop} onDone={()=>{
 
       game.party = new Party(game.player, game.player.houseSpace);
       setBetweenRounds(false);

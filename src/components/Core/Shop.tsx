@@ -129,8 +129,9 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
 
             let isBuyable = item.available > 0 && item.Guest.cost <= player.pop;
 
-            return <div key={index} className={"shop-item " + (isBuyable ? "" : "unavailable")}
+            return <div key={index + item.Guest.name} className={"shop-item " + (isBuyable ? "" : "unavailable")}
                 onClick={() => {
+
                     if (shop.TryBuyGuest(item.Guest, player)) {
                         setUpdateToggle(!updateToggle);
                     }
