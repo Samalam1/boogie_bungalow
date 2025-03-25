@@ -13,7 +13,7 @@ function InitializeNewGame(useSeed:boolean = true){
     seed = params.get("seed");
   }
 
-  test = params.get("test");
+  test = useSeed? params.get("test"):"";
 
   const game = new Game(seed??undefined,test??undefined);
   const player = game.player;
