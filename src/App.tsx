@@ -51,7 +51,22 @@ function App() {
   },[game]);
 
   if(GameEndMessage.length>2){
-    return <><h1 style={{color:"white"}}>{GameEndMessage}</h1>
+    return <>
+    {GameEndMessage.includes("Win")&&
+<style>
+  {`
+
+  body{
+
+    background-image:url(/confetti.gif) !important;
+    background-size:cover;
+  }
+
+  `
+  }
+</style>
+    }
+  <h1 style={{color:"white"}}>{GameEndMessage}</h1>
     <button onClick={()=>{setGameEndMessage("")}} style={{marginRight:"12px",width:"100px"}}>Keep Playing</button>
     <button  style={{width:"100px"}}
      onClick={()=>{
@@ -59,8 +74,8 @@ function App() {
       setGame(InitializeNewGame(false));
       setBetweenRounds(true);
     }}> New Game</button>
-    </>
 
+    </>
   }
 
   return (
