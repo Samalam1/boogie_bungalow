@@ -1,23 +1,21 @@
 import { useMemo, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
-import PeerTest from './peertesting'
 import { Party, PartyUI } from './components/Core/Party'
-import { Player } from './components/Core/Player'
-import { GetMasterGuestList } from './components/Core/Guests'
-import { CreateDefualtPlayer, Game } from './components/Core/Game'
+import {  Game } from './components/Core/Game'
 import { Shop, ShopUI } from './components/Core/Shop'
 
 function InitializeNewGame(useSeed:boolean = true){
 
   let seed = undefined;
-
-  if(useSeed&&window.location.href.includes("?seed=")){
-    seed = window.location.href.split("?seed=")[1];
+  let test =undefined;
+  let params = new URLSearchParams(window.location.search);
+  if(useSeed&&window.location.href.includes("seed=")){
+    seed = params.get("seed");
   }
 
-  const game = new Game(seed);
+  test = params.get("test");
+
+  const game = new Game(seed??undefined,test??undefined);
   const player = game.player;
 
   game.party = new Party(player, player.houseSpace);

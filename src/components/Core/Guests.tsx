@@ -146,68 +146,69 @@ export const uniCharArr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0
 export function InitializeMasterGuestList(){
 
    let list =[
-        CreateGuest({ name: "Old Friend", cost: 1, pop: 1 }),
-        CreateGuest({ name: "Rich Pal", cost: 3, cash: 1 }),
-        CreateGuest({ name: "Wild Buddy", pop: 2, trouble: 1 }),
 
-        CreateGuest({ name: "Driver", cost: 3, action: GuestAction.Fetch }),
-        CreateGuest({ name: "Private I.", cost: 4, pop: 2, cash: -1, action: GuestAction.Fetch }),
+        CreateGuest({ name: "Old Friend", cost: 1, pop: 1 }), //a
+        CreateGuest({ name: "Rich Pal", cost: 3, cash: 1 }), // b
+        CreateGuest({ name: "Wild Buddy", pop: 2, trouble: 1 }), //c
 
-        CreateGuest({ name: "Hippy", cost: 4, trouble: -1 }),
-        CreateGuest({ name: "Cute Dog", cost: 7, pop: 2, trouble: -1 }),
+        CreateGuest({ name: "Driver", cost: 3, action: GuestAction.Fetch }),//d
+        CreateGuest({ name: "Private I.", cost: 4, pop: 2, cash: -1, action: GuestAction.Fetch }),//e
 
-        CreateGuest({ name: "Security", cost: 4, action: GuestAction.Boot }),
-        CreateGuest({ name: "Wrestler", cost: 9, pop: 2, action: GuestAction.Boot }),
+        CreateGuest({ name: "Hippy", cost: 4, trouble: -1 }),//f
+        CreateGuest({ name: "Cute Dog", cost: 7, pop: 2, trouble: -1 }),//g
 
-        CreateGuest({ name: "Watch Dog", cost: 4, pop: 2, action: GuestAction.Peek }),
-        CreateGuest({ name: "Spy", cost: 8, cash: 2, action: GuestAction.Peek }),
+        CreateGuest({ name: "Security", cost: 4, action: GuestAction.Boot }),//h
+        CreateGuest({ name: "Wrestler", cost: 9, pop: 2, action: GuestAction.Boot }),//i
 
-        CreateGuest({ name: "Grillmaster", cost: 5, pop: 2, action: GuestAction.BootAll }),
-        CreateGuest({ name: "Athlete", cost: 6, pop: 1, cash: 1, action: GuestAction.BootAll }),
+        CreateGuest({ name: "Watch Dog", cost: 4, pop: 2, action: GuestAction.Peek }),//j
+        CreateGuest({ name: "Spy", cost: 8, cash: 2, action: GuestAction.Peek }),//k
 
-        CreateGuest({ name: "Dancer", cost: 7,onScoreEffect: OnScoreEffect.DanceBonus }),
+        CreateGuest({ name: "Grillmaster", cost: 5, pop: 2, action: GuestAction.BootAll }),//l
+        CreateGuest({ name: "Athlete", cost: 6, pop: 1, cash: 1, action: GuestAction.BootAll }),//m
 
-        CreateGuest({ name: "Mr. Popular", cost: 5, pop: 3, entranceEffect: EntranceEffect.BringSingleGuest }),
-        CreateGuest({ name: "Celebrity", cost: 11, pop: 2, cash: 3, entranceEffect: EntranceEffect.BringTwoGuests }),
+        CreateGuest({ name: "Dancer", cost: 7,onScoreEffect: OnScoreEffect.DanceBonus }),//n
 
-        CreateGuest({ name: "Ticket Taker", cost: 4, pop: -1, cash: 2 }),
+        CreateGuest({ name: "Mr. Popular", cost: 5, pop: 3, entranceEffect: EntranceEffect.BringSingleGuest }),//o
+        CreateGuest({ name: "Celebrity", cost: 11, pop: 2, cash: 3, entranceEffect: EntranceEffect.BringTwoGuests }),//p
 
-        CreateGuest({ name: "Comedian", cost: 5, cash: -1, onScoreEffect: OnScoreEffect.MaxGuestsBonus }),
-        CreateGuest({ name: "Photographer", cost: 5, pop: 1, cash: -1, action: GuestAction.Photo }),
-        CreateGuest({ name: "Caterer", cost: 5, pop: 4, cash: -1 }),
-        CreateGuest({ name: "Auctioneer", cost: 9, cash: 3 }),
+        CreateGuest({ name: "Ticket Taker", cost: 4, pop: -1, cash: 2 }),//q
 
-        CreateGuest({ name: "Mascot", cost: 5, pop: 1, onScoreEffect: OnScoreEffect.OldFriendBonus }),
-        CreateGuest({ name: "Introvert", cost: 4, pop: 1 , onScoreEffect: OnScoreEffect.EmptySpaceBonus }),
+        CreateGuest({ name: "Comedian", cost: 5, cash: -1, onScoreEffect: OnScoreEffect.MaxGuestsBonus }),//r
+        CreateGuest({ name: "Photographer", cost: 5, pop: 1, cash: -1, action: GuestAction.Photo }),//s
+        CreateGuest({ name: "Caterer", cost: 5, pop: 4, cash: -1 }),//t
+        CreateGuest({ name: "Auctioneer", cost: 9, cash: 3 }),//u
 
-        CreateGuest({ name: "Stylist", cost: 7, cash: -1 , action: GuestAction.PermanentPop }),
-        CreateGuest({ name: "Bartender", cost: 11, pop: 1 , onScoreEffect: OnScoreEffect.TroubleCash }),
-       CreateGuest({ name: "Writer", cost: 8, pop: 1, onScoreEffect: OnScoreEffect.TroublePop }),
+        CreateGuest({ name: "Mascot", cost: 5, pop: 1, onScoreEffect: OnScoreEffect.OldFriendBonus }),//v
+        CreateGuest({ name: "Introvert", cost: 4, pop: 1 , onScoreEffect: OnScoreEffect.EmptySpaceBonus }),//w
 
-        CreateGuest({ name: "Climber", cost: 12, entranceEffect: EntranceEffect.PopUp }),
-        CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),
-        CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),
-        CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.SwapStar }),
+        CreateGuest({ name: "Stylist", cost: 7, cash: -1 , action: GuestAction.PermanentPop }),//x
+        CreateGuest({ name: "Bartender", cost: 11, pop: 1 , onScoreEffect: OnScoreEffect.TroubleCash }),//y
+       CreateGuest({ name: "Writer", cost: 8, pop: 1, onScoreEffect: OnScoreEffect.TroublePop }),//z
 
-        CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
-        CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),
+        CreateGuest({ name: "Climber", cost: 12, entranceEffect: EntranceEffect.PopUp }),//A
+        CreateGuest({ name: "Cheerleader", cost: 5, pop: 1, action: GuestAction.Cheer }),//B
+        CreateGuest({ name: "Greeter", cost: 5, pop: 1, action: GuestAction.Greet }),//C
+        CreateGuest({ name: "Magician", cost: 5, pop: 1, action: GuestAction.SwapStar }),//D
 
-        CreateGuest({ name: "Werewolf", cost: 5, pop: 4 ,entranceEffect:EntranceEffect.CycleTrouble }),
-        CreateGuest({ name: "Monkey", cost: 3, pop: 4, trouble: 1 }),
-        CreateGuest({ name: "Rock Star", cost: 5, pop: 3, cash: 2, trouble: 1 }),
-        CreateGuest({ name: "Gangster", cost: 6, cash: 4, trouble: 1 }),
-        CreateGuest({ name: "Gambler", cost: 7, pop: 2, cash: 3, trouble: 1 }),
+        CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),//E
+        CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),//F
+
+        CreateGuest({ name: "Werewolf", cost: 5, pop: 4 ,entranceEffect:EntranceEffect.CycleTrouble }),//G
+        CreateGuest({ name: "Monkey", cost: 3, pop: 4, trouble: 1 }),//H
+        CreateGuest({ name: "Rock Star", cost: 5, pop: 3, cash: 2, trouble: 1 }),//I
+        CreateGuest({ name: "Gangster", cost: 6, cash: 4, trouble: 1 }),//J
+        CreateGuest({ name: "Gambler", cost: 7, pop: 2, cash: 3, trouble: 1 }),//K
 
         // Star Guests
-        CreateGuest({ name: "Alien", cost: 40, stars: 1 }),
-        CreateGuest({ name: "Leprechaun", cost: 50, cash: 3,stars: 1 }),
-        CreateGuest({ name: "Genie", cost: 55, action: GuestAction.Fetch,stars: 1 }),
-        CreateGuest({ name: "Dragon", cost: 30, cash: -3,stars: 1 }),
-        CreateGuest({ name: "Dinosaur", cost: 25, trouble: 1,stars:  1}),
-        CreateGuest({ name: "Mermaid", cost: 35, entranceEffect: EntranceEffect.BringSingleGuest,stars:  1 }),
-        CreateGuest({ name: "Ghost", cost: 45, action: GuestAction.Boot,stars:  1 }),
-        CreateGuest({ name: "Unicorn", cost: 45, trouble: -1,stars:  1 }),
-        CreateGuest({ name: "Superhero", cost: 50, pop: 3,stars:  1 }),
+        CreateGuest({ name: "Alien", cost: 40, stars: 1 }),//L
+        CreateGuest({ name: "Leprechaun", cost: 50, cash: 3,stars: 1 }),//M
+        CreateGuest({ name: "Genie", cost: 55, action: GuestAction.Fetch,stars: 1 }),//N
+        CreateGuest({ name: "Dragon", cost: 30, cash: -3,stars: 1 }),//O
+        CreateGuest({ name: "Dinosaur", cost: 25, trouble: 1,stars:  1}),//P
+        CreateGuest({ name: "Mermaid", cost: 35, entranceEffect: EntranceEffect.BringSingleGuest,stars:  1 }),//Q
+        CreateGuest({ name: "Ghost", cost: 45, action: GuestAction.Boot,stars:  1 }),//R
+        CreateGuest({ name: "Unicorn", cost: 45, trouble: -1,stars:  1 }),//S
+        CreateGuest({ name: "Superhero", cost: 50, pop: 3,stars:  1 }),//T
     ]
 
     for(let i = 0;i<list.length;i++){

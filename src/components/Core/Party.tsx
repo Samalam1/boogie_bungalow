@@ -357,8 +357,8 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                             party.guests[index] = gs;
                         }
                         setGuests([...party.guests]);
-                        setInfoline(undefined);
 
+                        guest.hasAction = false;
                         setCurrentTrouble(party.CalculateTrouble());
 
                         if(party.CalculateTrouble() > 2){
@@ -367,8 +367,8 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                         else{
                             setUiState(PartyState.Normal);
                         }
+                        setInfoline(undefined);
 
-                        guest.hasAction = false;
 
                     };
                 };
