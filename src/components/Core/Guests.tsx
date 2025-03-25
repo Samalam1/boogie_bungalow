@@ -140,6 +140,9 @@ export function GetMasterGuestList():Guest[]{
         return masterGuestList;
 }
 
+export const uniCharArr = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+
 export function InitializeMasterGuestList(){
 
    let list =[

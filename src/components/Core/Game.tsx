@@ -1,10 +1,11 @@
-import { GetGuestDefinitionByName, GetMasterGuestList, Guest } from './Guests';
+import { GetGuestDefinitionByName, GetMasterGuestList, Guest, uniCharArr } from './Guests';
 import { Party, shuffleArray } from './Party';
 import { Player } from './Player';
 import { Shop } from './Shop'; // Adjust the path as necessary
 
 export function CreateRandomShop(seed?:string){
 
+    console.log(seed);
     let nonStars = GetMasterGuestList().filter(x => x.stars<=0);
     let stars = [...GetMasterGuestList().filter(x => x.stars>0)];
 
@@ -14,11 +15,19 @@ export function CreateRandomShop(seed?:string){
     let allGuests = [...rGuests,...rStars].sort((a,b) => a.cost - b.cost);
 
     if(seed){
-        let numbs = seed.split("_").map(x => parseInt(x));
+        console.log('seed',seed);
         allGuests = [];
-        for(let i = 0;i<numbs.length;i++){
-            allGuests.push({...GetMasterGuestList()[numbs[i]]});
+
+        for(let i = 0;i<seed.length;i++){
+            let char = seed[i];
+            let index = uniCharArr.indexOf(char);
+            let guest = GetMasterGuestList()[index];
+            if(guest)
+            allGuests.push({...guest});
         }
+
+
+   
     }
 
   return new Shop(allGuests.map(x => {return {Guest:x,available:x.shopCount}}));
@@ -58,7 +67,11 @@ export class Game{
         if(inseed)
             this.seed = inseed;
         else{
-            this.seed = this.shop.shopItems.map(x => GetMasterGuestList().indexOf(x.Guest)).join("_");
+            this.seed = "";
+            for(let i = 0;i<this.shop.shopItems.length;i++){
+                this.seed += uniCharArr[GetMasterGuestList().indexOf(this.shop.shopItems[i].Guest)];
+            }
+            
         }
 
 
