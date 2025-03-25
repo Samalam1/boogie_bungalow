@@ -353,16 +353,18 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 };
                 break;
             case GuestAction.BootAdjacent:
+         
                 setUiState(PartyState.SelectingGuest);
                 setInfoline("Select a guest to boot, guest to their right will also be booted");
                 guestFilter.current = (g) => g != guest;
                 onSelectActorEvent.current = (g) => {
-                    let index = guests.findIndex(x => x == g);
-                    let newArr = guests.splice(index, 2);
+         
+                    let index = party.guests.findIndex(x => x == g);
+                    party.guests.splice(index, 2);
 
                     guest.hasAction = false;
-                    setGuests(newArr);
-                    party.guests = [...newArr];
+                    setGuests(party.guests);
+               
                     setInfoline(undefined);
                     setUiState(PartyState.Normal);
                 };
