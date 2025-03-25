@@ -196,7 +196,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
 
             </div>}
 
-        <PLayerScoreUI infoline="Shop (Score 4 ★'s in a single party to win!) " onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
+        <PLayerScoreUI infoline="Shop - (Score 4 ★'s in a single party to win!) " onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
     </div>
 
 }
