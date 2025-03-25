@@ -314,8 +314,15 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     guest.hasAction = false;
                     setGuests(newArr);
                     party.guests = [...newArr];
+                    setCurrentTrouble(party.CalculateTrouble());
+                    if(party.CalculateTrouble() > 2){
+                        setUiState(PartyState.FailTooMuchTrouble);
+                    }
+                    else{
+                        setUiState(PartyState.Normal);
+                    }
                     setInfoline(undefined);
-                    setUiState(PartyState.Normal);
+                   
                 };
                 break;
 
@@ -365,6 +372,10 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                     guest.hasAction = false;
                     setGuests(party.guests);
                
+                    setCurrentTrouble(party.CalculateTrouble());
+                    if(party.CalculateTrouble() > 2){
+                        setUiState(PartyState.FailTooMuchTrouble);
+                    }
                     setInfoline(undefined);
                     setUiState(PartyState.Normal);
                 };
@@ -393,7 +404,8 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
             case GuestAction.BootAll:
                 party.Reset();
                 setGuests([]);
-
+                setCurrentTrouble(0);
+                setUiState(PartyState.Normal);
                 break;
             case GuestAction.Greet:
                 if(party.guests.length >= party.maxGuests){
