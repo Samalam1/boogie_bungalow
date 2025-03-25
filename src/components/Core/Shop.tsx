@@ -111,6 +111,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
     }
 
     return <div className="shop">
+        <div style={{width:"100%", textAlign:"center"}}>SHOP</div>
         <button className="guest-slot "
             style={{ height: "auto" }}
             disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
@@ -196,7 +197,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
 
             </div>}
 
-        <PLayerScoreUI infoline="Shop - (Score x4 ★ in a single party to win!) " onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
+        <PLayerScoreUI infoline="Score x4 ★ in a single party to win!" onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
     </div>
 
 }
