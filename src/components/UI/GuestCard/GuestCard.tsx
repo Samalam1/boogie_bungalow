@@ -170,7 +170,7 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
             scoreDesc = "Gain plus 1 POP for each Old Friend";
             break;
         case OnScoreEffect.EmptySpaceBonus:
-            scoreDesc = "Gain 1 pop for each empty space in your party";
+            scoreDesc = "1 and  +1 pop for each empty space in your party";
             break;
         case OnScoreEffect.Auction:
             scoreDesc = "Gain 1 cash for each guestx";

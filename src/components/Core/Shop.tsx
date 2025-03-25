@@ -120,7 +120,7 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
             navigator.clipboard.writeText(window.location.href.split("?")[0]+"?seed="+seed);
         }}
             style={{padding:"8px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all",userSelect:"none",marginBottom:"16px"}}
-        >{"copy seed url 📋"}</div>
+        >{"Copy Seed Url 📋"}</div>
     <div className="seed-display"
         onClick={()=>{
            if(window.confirm("Are you sure you want to start a new game?")){

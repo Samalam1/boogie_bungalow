@@ -344,7 +344,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 guestFilter.current = (g) => g != guest;
                 onSelectActorEvent.current = (g) => {
                     let index = guests.findIndex(x => x == g);
-                    let newArr = guests.filter((x, i) => i != index && i != index + 1);
+                    let newArr = guests.splice(index, 2);
 
                     guest.hasAction = false;
                     setGuests(newArr);
