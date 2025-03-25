@@ -334,7 +334,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
 
             case GuestAction.SwapStar:
                 setUiState(PartyState.SelectingGuest);
-                setInfoline("Select a guest to swap");
+                setInfoline("Select a guest to swap with");
                 guestFilter.current = (g) => g != guest;
                 onSelectActorEvent.current = (g) => {
                     let star = g.stars;

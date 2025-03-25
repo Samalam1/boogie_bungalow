@@ -119,7 +119,7 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             desc = "Peek at the next guest";
             break;
         case GuestAction.SwapStar:
-            desc = "Swap with a normal giest with a star guest or vice versa";
+            desc = "Swap with a normal guest with a star guest or vice versa";
             break;
         case GuestAction.PermanentPop:
             desc = "Add +1 POP permanently to another guest";
