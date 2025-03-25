@@ -74,9 +74,15 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
     }, []);
 
     if(inContacts){
+
+        let sorted = player.contacts.sort((a,b) =>{ 
+            if(a.cost === b.cost)
+                return a.name.localeCompare(b.name);
+            return a.cost - b.cost});
+
         return <div className="shop">
 
-            { player.contacts.map((guest,index) => {
+            { sorted.map((guest,index) => {
 
                 return <GuestCard key={index} guest={guest} />
 
