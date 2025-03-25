@@ -353,7 +353,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                         party.availableGuests = [...party.availableGuests, g];
                         party.availableGuests = shuffleArray(party.availableGuests);
                         let index = party.guests.findIndex(x => x == g);
-                        if(index>0){
+                        if(index>=0){
                             party.guests[index] = gs;
                         }
                         setGuests([...party.guests]);
