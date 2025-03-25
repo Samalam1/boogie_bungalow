@@ -84,7 +84,17 @@ body{
     background: #444;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+
     gap: 10px;
+
+    button{
+        min-width: 230px;
+        background: black !important;
+        color:white !important;
+        border:2px solid #eee;
+        margin-top: 4px;
+    }
 }
 
     .out-of{
@@ -143,6 +153,9 @@ body{
             color: grey;
         }
 }  }
+
+
+
     .shop-item{
         background:#333;
         border-radius: 12px;
@@ -150,6 +163,24 @@ body{
         cursor: pointer;
         position: relative;
 
+
+        .shop-ticks{
+            display: flex;
+            gap:2px;
+            margin-right: 10px;
+            .shop-tick
+            {
+                border:1px solid #726e41;
+           
+                width: 2px;
+                height: 8px;
+                
+                &.full{
+                    background: #d8c51a;
+                    border:1px solid #d8c51a;
+                }
+            }
+        }
         &:hover{
             box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
             transform: scale(1.025);
@@ -170,7 +201,8 @@ body{
                 transform: none;
             }
             .cost-line{
-                color:rgb(190, 165, 165);
+               
+                opacity: .5;
             }
         }
 
@@ -180,7 +212,10 @@ body{
         text-align: center;
         font-weight: bolder;
         color: #f7cf20;
-
+        display: flex;
+      
+            align-items: center;
+            justify-content: space-between;
 
         span{
             color:rgb(179, 179, 179);
@@ -220,7 +255,7 @@ body{
 
     body{
         padding-bottom: 160px;
-        padding-top: 120px;
+        padding-top: 180px;
         align-items: flex-start;
     }
 

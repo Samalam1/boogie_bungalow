@@ -3,33 +3,33 @@ import { Guest } from "./Guests"
 import { Player, PLayerScoreUI } from "./Player";
 import { GuestCard } from "../UI/GuestCard/GuestCard";
 
- type GuestShopItem = {
+type GuestShopItem = {
     Guest: Guest,
-    available:number
+    available: number
 }
 
 
-function GetHouseUpgradePrice(currentCapacity:number){
-    let calc = currentCapacity-3;
-    if (calc > 12){
+function GetHouseUpgradePrice(currentCapacity: number) {
+    let calc = currentCapacity - 3;
+    if (calc > 12) {
         return 12;
     }
     return calc;
 
 }
 
-export class Shop{
+export class Shop {
 
-    shopItems:GuestShopItem[] = [];
+    shopItems: GuestShopItem[] = [];
 
-    constructor(shopItems:GuestShopItem[]){
+    constructor(shopItems: GuestShopItem[]) {
         this.shopItems = shopItems;
     }
 
-    TryBuySpace(player:Player){
+    TryBuySpace(player: Player) {
 
         console.log('try buy space');
-        if(player.cash >= GetHouseUpgradePrice(player.houseSpace)){
+        if (player.cash >= GetHouseUpgradePrice(player.houseSpace)) {
             player.cash -= GetHouseUpgradePrice(player.houseSpace);
             player.houseSpace++;
             return true;
@@ -42,14 +42,14 @@ export class Shop{
 
 
 
-    TryBuyGuest(guest:Guest,player:Player){
+    TryBuyGuest(guest: Guest, player: Player) {
 
 
         let item = this.shopItems.find(x => x.Guest === guest);
-        if(item && item.available > 0 && item.Guest.cost <= player.pop){
+        if (item && item.available > 0 && item.Guest.cost <= player.pop) {
             item.available--;
             player.pop -= item.Guest.cost;
-            player.contacts.push({...item.Guest}); // clone the guest
+            player.contacts.push({ ...item.Guest }); // clone the guest
             return true;
         }
         return false;
@@ -60,12 +60,28 @@ export class Shop{
 
 }
 
+export function ShopTick({ full }: { full: boolean }) {
+
+}
+
+export function ShopTicks({ num }: { num: number }) {
+    return <div className="shop-ticks">
+        {num > 5 ? <div>∞</div> : <>
+            <div className={"shop-tick " + (num > 0 ? "full" : "")}></div>
+            <div className={"shop-tick " + (num > 1 ? "full" : "")}></div>
+            <div className={"shop-tick " + (num > 2 ? "full" : "")}></div>
+            <div className={"shop-tick " + (num > 3 ? "full" : "")}></div>
+        </>
+        }
+    </div>
 
 
-export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Player,shop:Shop,day:number,onDone:()=>void}){
+}
 
-    const [updateToggle,setUpdateToggle] = useState(false);
-    const [inContacts,setInContacts] = useState(false);
+export function ShopUI({ seed, player, shop, onDone, day }: { seed?: string, player: Player, shop: Shop, day: number, onDone: () => void }) {
+
+    const [updateToggle, setUpdateToggle] = useState(false);
+    const [inContacts, setInContacts] = useState(false);
 
     useEffect(() => {
 
@@ -73,85 +89,97 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
 
     }, []);
 
-    if(inContacts){
+    if (inContacts) {
 
-        let sorted = player.contacts.sort((a,b) =>{ 
-            if(a.cost === b.cost)
+        let sorted = player.contacts.sort((a, b) => {
+            if (a.cost === b.cost)
                 return a.name.localeCompare(b.name);
-            return a.cost - b.cost});
+            return a.cost - b.cost
+        });
 
         return <div className="shop">
 
-            { sorted.map((guest,index) => {
+            {sorted.map((guest, index) => {
 
                 return <GuestCard key={index} guest={guest} />
 
             })}
-            <PLayerScoreUI infoline="Contacts" onInfo={()=>setInContacts(false)} isFocused={false} pop={player.pop} cta="back" cash={player.cash} day={day} trouble={0} />
+            <PLayerScoreUI infoline="Contacts" onInfo={() =>{ setInContacts(false); window.scrollTo(0, 0);}} isFocused={false} pop={player.pop} cta="back" cash={player.cash} day={day} trouble={0} />
 
-            </div>
+        </div>
     }
 
     return <div className="shop">
-                <button className="guest-slot "
-        style={{height:"auto"}}
+        <button className="guest-slot "
+            style={{ height: "auto" }}
             disabled={player.cash < GetHouseUpgradePrice(player.houseSpace)}
             onClick={() => {
-                if(shop.TryBuySpace(player)){
+                if (shop.TryBuySpace(player)) {
                     setUpdateToggle(!updateToggle);
                 }
             }}
 
         >
-            <br/>
-           <div> 🏠{`(${player.houseSpace}+)`}  </div>
-           <div className="house-cash ">${GetHouseUpgradePrice(player.houseSpace)}</div>
+            <br />
+            <div> 🏠{`(${player.houseSpace}+)`}  </div>
+            <div className="house-cash ">${GetHouseUpgradePrice(player.houseSpace)}</div>
         </button>
-        {shop.shopItems.map((item,index) => {
+        {shop.shopItems.map((item, index) => {
 
-            let isBuyable = item.available >0 && item.Guest.cost <= player.pop;
+            let isBuyable = item.available > 0 && item.Guest.cost <= player.pop;
 
-            return <div key={index} className={"shop-item " + (isBuyable?"":"unavailable")}
-            onClick={() => {
-                if(shop.TryBuyGuest(item.Guest,player)){
-                    setUpdateToggle(!updateToggle);
-                }
-            }}
+            return <div key={index} className={"shop-item " + (isBuyable ? "" : "unavailable")}
+                onClick={() => {
+                    if (shop.TryBuyGuest(item.Guest, player)) {
+                        setUpdateToggle(!updateToggle);
+                    }
+                }}
             >
-            { item.available>0?
+                {item.available > 0 ?
 
-            <div className="cost-line">
-            {item.Guest.cost}
-            <span>{item.available<20?"("+item.available+"/"+item.Guest.shopCount+")":"∞"}</span>
-            </div>:
-            <div className="cost-line">SOLD OUT</div>
-            }
+                    <div className="cost-line">
+                        &nbsp;🔥{item.Guest.cost}
+                        <ShopTicks num={item.available} />
+                    </div> :
+                    <div className="cost-line" style={{ justifyContent: "center", fontSize: ".8em", lineHeight: "2em", color: "white" }} >SOLD OUT</div>
+                }
                 <GuestCard guest={item.Guest}
 
                 />
 
             </div>
         })}
-        <button className="guest-slot " onClick={()=>setInContacts(true)} style={{height:"auto",background:"#eee",color:"#333"}}>
-            View Contacts ☎
-        </button>
 
-        {seed &&<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}> <div className="seed-display"
-        onClick={()=>{
-            navigator.clipboard.writeText(window.location.href.split("?")[0]+"?seed="+seed);
-        }}
-            style={{padding:"8px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all",userSelect:"none",marginBottom:"16px"}}
-        >{"Copy Seed Url 📋"}</div>
-    <div className="seed-display"
-        onClick={()=>{
-           if(window.confirm("Are you sure you want to start a new game?")){
-               window.location.href = window.location.href.split("?")[0];
-           }
-        }}
-            style={{padding:"8px",color:"#999",background:"#333",borderRadius:"4px",margin:"8px 0",maxWidth:"200px",cursor:"pointer",wordBreak:"break-all",userSelect:"none"}}
-        >{"Start New Game"}</div></div>}
 
-        <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta="Next Party" cash={player.cash} day={day} trouble={0} />
+        {/* <button className="guest-slot " onClick={()=>} style={{height:"auto",background:"#eee",color:"#333"}}>
+   
+        </button> */}
+
+        {seed && <div style={{ display: "flex", flexDirection: "column", alignItems: "center",padding:"8px" }}>
+            <div className="seed-display"
+                onClick={() => {
+                    setInContacts(true);
+                    window.scrollTo(0, 0);
+                }}
+                style={{ padding: "8px", color: "#333", background: "#eee", borderRadius: "4px", margin: "8px 0", width: "160px", cursor: "pointer", wordBreak: "break-all", userSelect: "none", marginBottom: "16px" }}
+            >{"View Contacts ☎"}</div>
+            <div className="seed-display"
+
+                onClick={() => {
+                    navigator.clipboard.writeText(window.location.href.split("?")[0] + "?seed=" + seed);
+                }}
+                style={{ padding: "8px", color: "#999", background: "#333", borderRadius: "4px", margin: "8px 0", width: "160px", cursor: "pointer", wordBreak: "break-all", userSelect: "none", marginBottom: "16px" }}
+            >{"Copy Seed Url 📋"}</div>
+            <div className="seed-display"
+                onClick={() => {
+                    if (window.confirm("Are you sure you want to start a new game?")) {
+                        window.location.href = window.location.href.split("?")[0];
+                    }
+                }}
+                style={{ padding: "8px", color: "#999", background: "#333", borderRadius: "4px", margin: "8px 0", width: "160px", cursor: "pointer", wordBreak: "break-all", userSelect: "none" }}
+            >{"Start New Game"}</div></div>}
+
+        <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
     </div>
 
 }
