@@ -3,6 +3,7 @@ export enum EntranceEffect {
     BringSingleGuest,
     BringTwoGuests,
     PopUp,
+    CycleTrouble
 }
 
 export enum OnScoreEffect {
@@ -188,7 +189,7 @@ export function InitializeMasterGuestList(){
         CreateGuest({ name: "Cupid", cost: 8, pop: 1, action: GuestAction.BootAdjacent }),
         CreateGuest({ name: "Counselor", cost: 7, action: GuestAction.ClearAllTrouble }),
 
-        // CreateGuest({ name: "Werewolf", cost: 5, pop: 4 }),//, action: GuestAction.CycleTrouble }), adds trouble to every other guest that enters (why?)
+        CreateGuest({ name: "Werewolf", cost: 5, pop: 4 ,entranceEffect:EntranceEffect.CycleTrouble }),
         CreateGuest({ name: "Monkey", cost: 3, pop: 4, trouble: 1 }),
         CreateGuest({ name: "Rock Star", cost: 5, pop: 3, cash: 2, trouble: 1 }),
         CreateGuest({ name: "Gangster", cost: 6, cash: 4, trouble: 1 }),

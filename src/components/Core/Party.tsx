@@ -171,9 +171,20 @@ export class Party {
                     permGuest.pop += 1;
                     guest.pop += 1;
                 }
-
+                break;
+            case EntranceEffect.CycleTrouble:
+                let gst = this.player.contacts.find(g => g.name == guest.name && g.trouble == guest.trouble && g.pop == guest.pop);
+                if(guest.trouble>0){
+                    guest.trouble = 0;
+                }
+                else{
+                    guest.trouble = 1;
+                }
+                if(gst)//apply to the non clone
+                    gst.trouble = guest.trouble;
 
                 break;
+
             default:
                 break;
 

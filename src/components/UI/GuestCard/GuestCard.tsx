@@ -155,7 +155,9 @@ function InfoLine({ effect,scoreEffect }: { effect: EntranceEffect,scoreEffect:O
         case EntranceEffect.PopUp:
             entDesc = "When this guest enters they gain +1 POP permanently";
             break;
-
+        case EntranceEffect.CycleTrouble:
+            entDesc = "This guest has trouble every other appearance";
+            break;
 
         default:
                 break;
