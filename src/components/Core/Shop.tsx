@@ -43,21 +43,15 @@ export class Shop {
 
 
     TryBuyGuest(guest: Guest, player: Player) {
-        window.alert("TryBuyGuest");
+
 
         let item = this.shopItems.find(x => x.Guest.name === guest.name);
         if (item && item.available > 0 && item.Guest.cost <= player.pop) {
-            window.alert("Bought guest");
             item.available--;
             player.pop -= item.Guest.cost;
             player.contacts.push({ ...item.Guest }); // clone the guest
             return true;
         }
-        if(item)
-        window.alert("Cant buy guest ");
-    else{
-        window.alert("Item not found");
-    }
 
         return false;
     }
