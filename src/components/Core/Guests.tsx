@@ -83,7 +83,7 @@ export const defaultGuestValues:Guest = {
     pop:0,
     trouble:0,
     cash:0,
-    shopCount:5,
+    shopCount:4,
     stars:0,
     cost:1,
     entranceEffect:EntranceEffect.None,
