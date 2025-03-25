@@ -126,7 +126,7 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
 
             </div>
         })}
-        <button className="guest-slot " onClick={()=>setInContacts(true)} style={{height:"auto",background:"#aaa",color:"#333"}}>
+        <button className="guest-slot " onClick={()=>setInContacts(true)} style={{height:"auto",background:"#eee",color:"#333"}}>
             View Contacts ☎
         </button>
 
