@@ -77,9 +77,10 @@ function App() {
       setBetweenRounds(true);
       if(win){
         setGameEndMessage("You Win!");
+        window.scrollTo(0, 0);
       }
       else if(game.day==25){
-
+          window.scrollTo(0, 0);
           setGameEndMessage("You Lose!");
 
       }

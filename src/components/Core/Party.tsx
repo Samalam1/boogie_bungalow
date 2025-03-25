@@ -633,6 +633,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
             className="guest-slot"
             onClick={() => {
                 setUiState(PartyState.ScoringRound);
+                window.scrollTo(0, 0);
                 ScoreAndMoveNext(0);
             }}
         > 🛑 End Party</button> :
