@@ -78,7 +78,7 @@ export function ShopTicks({ num }: { num: number }) {
 
 }
 
-export function ShopUI({ seed, player, shop, onDone, day }: { seed?: string, player: Player, shop: Shop, day: number, onDone: () => void }) {
+export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSave:()=>void,onLoad:()=>void, seed?: string, player: Player, shop: Shop, day: number, onDone: () => void }) {
 
     const [updateToggle, setUpdateToggle] = useState(false);
     const [inContacts, setInContacts] = useState(false);
@@ -156,7 +156,7 @@ export function ShopUI({ seed, player, shop, onDone, day }: { seed?: string, pla
         </button> */}
 
         {seed && <div style={{ display: "flex", flexDirection: "column", alignItems: "center",padding:"8px 8px 0 8px" }}>
-            <div className="seed-display"
+            <div className="option-btn"
                 onClick={() => {
                     setInContacts(true);
                     window.scrollTo(0, 0);
@@ -177,7 +177,21 @@ export function ShopUI({ seed, player, shop, onDone, day }: { seed?: string, pla
                     }
                 }}
                 style={{ padding: "8px", color: "#999", background: "#333", borderRadius: "4px", marginBottom: "16px", width: "160px", cursor: "pointer", wordBreak: "break-all", userSelect: "none" }}
-            >{"Start New Game"}</div></div>}
+            >{"Start New Game"}</div>
+<div style={{display:"flex",flexDirection:"row"}}>
+<div className="option-btn"
+                onClick={onSave}
+                style={{display:"inline-block", padding: "8px", color: "#999", background: "#333", borderRadius: "4px",width:"68px",marginRight:"6px", marginBottom: "16px", cursor: "pointer", wordBreak: "break-all", userSelect: "none" }}
+            >{"Save 💾"}</div>
+
+<div className="option-btn"
+                onClick={onLoad}
+                style={{ padding: "8px",display:"inline-block", color: "#999", background: "#333", borderRadius: "4px",width:"68px",  marginBottom: "16px", cursor: "pointer", wordBreak: "break-all", userSelect: "none" }}
+            >{"Load"}</div>
+            
+           </div> 
+            
+            </div>}
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
     </div>
