@@ -65,13 +65,26 @@ export class Shop{
 export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Player,shop:Shop,day:number,onDone:()=>void}){
 
     const [updateToggle,setUpdateToggle] = useState(false);
-    const [inContacts,setInContacts] = useState(player.contacts);
+    const [inContacts,setInContacts] = useState(false);
 
     useEffect(() => {
 
         window.scrollTo(0, 0);
 
     }, []);
+
+    if(inContacts){
+        return <div className="shop">
+
+            { player.contacts.map((guest,index) => {
+
+                return <GuestCard key={index} guest={guest} />
+
+            })}
+            <PLayerScoreUI infoline="Contacts" onInfo={()=>setInContacts(false)} isFocused={false} pop={player.pop} cta="back" cash={player.cash} day={day} trouble={0} />
+
+            </div>
+    }
 
     return <div className="shop">
                 <button className="guest-slot "
@@ -113,7 +126,9 @@ export function ShopUI({seed, player,shop,onDone,day}:{seed?:string,player:Playe
 
             </div>
         })}
-
+        <button className="guest-slot " style={{height:"auto",background:"#aaa",color:"#333"}}>
+            View Contacts ☎
+        </button>
 
         {seed &&<div style={{display:"flex",flexDirection:"column",alignItems:"center"}}> <div className="seed-display"
         onClick={()=>{
