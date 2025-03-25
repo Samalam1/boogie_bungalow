@@ -38,7 +38,7 @@ body {
 
 .player-score {
     background: black;
-
+    box-sizing: border-box;
     display: flex;
     position: fixed;
     top: 0;
@@ -113,10 +113,10 @@ body {
 
 
     .day {
-        float: right;
+       
         color: rgb(179, 179, 179);
         position: absolute;
-        right: 50px;
+        right: 8px;
 
     }
 
@@ -153,6 +153,7 @@ body {
         box-shadow: 0 4px 20px 0 rgb(0, 0, 0);
     }
 }
+
 
 
 .shop {
