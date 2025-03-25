@@ -185,6 +185,8 @@ body{
         &:hover{
             box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
             transform: scale(1.025);
+            z-index: 2;
+
         }
 
         &:active{
@@ -328,7 +330,7 @@ body{
         &:hover{
         box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
         transform: scale(1.025);
-
+        z-index: 2;
         }
     }
 
@@ -403,7 +405,7 @@ body{
         display: flex;
         place-items: center;
         position: relative;
-
+        cursor: default;
 
         div{
             display: flex;
@@ -485,6 +487,8 @@ body{
             }
 
         }
+
+     
     }
 
     .info-line{
@@ -500,7 +504,7 @@ body{
     }
 
 
-
+}
 
     .stat-number{
         font-size: 14px;
@@ -584,6 +588,9 @@ body{
 
 
 
+.guest-card:has(.tool-tipped:hover),.shop-item:has(.tool-tipped:hover){
+    transform: scale(1)!important;
+   
 }
 
 

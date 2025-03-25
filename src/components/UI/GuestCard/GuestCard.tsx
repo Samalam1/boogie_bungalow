@@ -129,7 +129,7 @@ function ActionLine({ action,used }: { action: GuestAction ,used:boolean}) {
             break;
     }
 
-    return <div onPointerDown={(e)=>e.preventDefault()} className={"action-line tool-tipped "+(used?"used":"")}>
+    return <div  className={"action-line tool-tipped "+(used?"used":"")}>
       <div>A</div>
         <span>{desc}</span>
     </div>
@@ -228,7 +228,24 @@ export function GuestCard({ guest,onClick,addClass,setRef }: {setRef?:(dom:HTMLD
         <div className={"guest-card "+(addClass??"")}
             ref={setRef}
         style={{background:guest.bg}}
-            onClick={onClick}
+            onClick={(e)=>{
+                console.log("click");
+                let target = e.target;
+                if(target){
+                    let parent:any = target as HTMLElement;
+                    while(parent){
+                        if(parent.classList.contains("tool-tipped")){
+                            e.stopPropagation();
+                            e.preventDefault();
+                            return;
+                            
+                        }
+                        parent = parent.parentElement;
+                    }
+                }
+                
+                onClick&&onClick();
+            }}
         >
             <div className="top-portion">
                 <div className={"title "+(guest.name.length>"grillmast".length?"small":"")}>
