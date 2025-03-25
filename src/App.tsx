@@ -9,10 +9,11 @@ import { GetMasterGuestList } from './components/Core/Guests'
 import { CreateDefualtPlayer, Game } from './components/Core/Game'
 import { Shop, ShopUI } from './components/Core/Shop'
 
-function InitializeNewGame(){
+function InitializeNewGame(useSeed:boolean = true){
 
   let seed = undefined;
-  if(window.location.href.includes("?seed=")){
+
+  if(useSeed&&window.location.href.includes("?seed=")){
     seed = window.location.href.split("?seed=")[1];
   }
 
@@ -27,7 +28,7 @@ function App() {
 
   const [game, setGame] = useState(InitializeNewGame());
   const [betweenRounds, setBetweenRounds] = useState(true);
-
+  const [GameEndMessage, setGameEndMessage] = useState("");
 
   const saveGame = useMemo(()=>()=>{
     localStorage.setItem("game",JSON.stringify(game));
@@ -45,6 +46,19 @@ function App() {
     }
   },[game]);
 
+  if(GameEndMessage.length>2){
+    return <><h1 style={{color:"white"}}>{GameEndMessage}</h1>
+    <button onClick={()=>{setGameEndMessage("")}} style={{marginRight:"12px",width:"100px"}}>Keep Playing</button>
+    <button  style={{width:"100px"}}
+     onClick={()=>{
+      setGameEndMessage("");
+      setGame(InitializeNewGame(false));
+      setBetweenRounds(true);
+    }}> New Game</button>
+    </>
+
+  }
+
   return (
     <>
     {betweenRounds && <ShopUI onSave={saveGame} onLoad={loadGame} seed={game.seed} day={game.day} player={game.player} shop={game.shop} onDone={()=>{
@@ -55,10 +69,21 @@ function App() {
       }} />}
      {game.party&&!betweenRounds&& <PartyUI party={game.party}
 
-     day={game.day} onEndGame={()=>{
+     day={game.day} onEndGame={(win:boolean)=>{
       setBetweenRounds(true);
+      if(game.day==25||win){
+        if(win){
+          setGameEndMessage("You Win!");
+        }
+        else{
+          setGameEndMessage("You Lose!");
+      }
+    }
+
       game.day++;
 
+     
+      
 
 
      }} /> }

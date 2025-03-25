@@ -195,7 +195,7 @@ export class Party {
 
 
 
-export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, onEndGame: () => void }) {
+export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, onEndGame: (win:boolean) => void }) {
     const [guests, setGuests] = useState<Guest[]>(party.guests);
     const [uiState, setUiState] = useState<PartyState>(PartyState.Normal);
     const [currentTrouble, setCurrentTrouble] = useState<number>(0);
@@ -215,7 +215,9 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 <h4>{label}</h4>
                 <button
                     onClick={() => {
-                        onEndGame();
+
+                  
+                        onEndGame(false);
                     }}
                 >Next Day</button>
             </div>
@@ -264,7 +266,13 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
         }
         else {
             setTimeout(() => {
-                onEndGame();
+                if(party.guests.filter(g=>g.stars>3)){
+                    onEndGame(true);
+                }
+                else{
+                    onEndGame(false);
+                }
+
             }, timeBetweenScolring);
         }
 
