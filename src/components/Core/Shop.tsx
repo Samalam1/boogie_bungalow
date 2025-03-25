@@ -28,7 +28,7 @@ export class Shop {
 
     TryBuySpace(player: Player) {
 
-        console.log('try buy space');
+
         if (player.cash >= GetHouseUpgradePrice(player.houseSpace)) {
             player.cash -= GetHouseUpgradePrice(player.houseSpace);
             player.houseSpace++;
