@@ -243,8 +243,11 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
 
 
             let guest = guests[number];
-            console.timeStamp("Scoring");
-            console.log("guest", guest.name)
+
+            let dom = document.querySelector(".guest-" + number);
+            if(dom){
+                dom.scrollIntoView({behavior:"smooth",block:"center"});
+            }
 
             let score = party.CalGuestScore(guest);
             party.ApplyCalcScore(score);
@@ -566,7 +569,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
 
                     return <GuestCard setRef={(dom: HTMLDivElement) => {
                         domCardRef.current[i] = dom;
-                    }} addClass={cls}
+                    }} addClass={cls +" guest-"+i}
 
                         onClick={onClickEvent}
 
