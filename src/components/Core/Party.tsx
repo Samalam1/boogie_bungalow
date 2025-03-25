@@ -382,11 +382,17 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 break;
             case GuestAction.PermanentPop:
                 setUiState(PartyState.SelectingGuest);
-                setInfoline("Select a guest to boot");
+                setInfoline("Select a guest to increae pop");
                 guestFilter.current = (g) => (g != guest && g.pop < 9);
                 onSelectActorEvent.current = (g) => {
 
                     guest.hasAction = false;
+                  
+               
+                    let fnd = party.player.contacts.find(x => x.name == g.name && x.pop == g.pop);
+                    if(fnd){
+                        fnd.pop += 1;
+                    }
                     g.pop += 1;
                     setInfoline(undefined);
                     setUiState(PartyState.Normal);
