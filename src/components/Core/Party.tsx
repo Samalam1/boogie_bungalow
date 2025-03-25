@@ -216,7 +216,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 <button
                     onClick={() => {
 
-                  
+
                         onEndGame(false);
                     }}
                 >Next Day</button>
@@ -266,7 +266,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
         }
         else {
             setTimeout(() => {
-                if(party.guests.filter(g=>g.stars>3).length>3){
+                if(party.guests.filter(g=>g.stars>0).length>3){
                     onEndGame(true);
                 }
                 else{
@@ -336,7 +336,7 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                         setUiState(PartyState.Normal);
                     }
                     setInfoline(undefined);
-                   
+
                 };
                 break;
 
@@ -374,18 +374,18 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 };
                 break;
             case GuestAction.BootAdjacent:
-         
+
                 setUiState(PartyState.SelectingGuest);
                 setInfoline("Select a guest to boot, guest to their right will also be booted");
                 guestFilter.current = (g) => g != guest;
                 onSelectActorEvent.current = (g) => {
-         
+
                     let index = party.guests.findIndex(x => x == g);
                     party.guests.splice(index, 2);
 
                     guest.hasAction = false;
                     setGuests(party.guests);
-               
+
                     setCurrentTrouble(party.CalculateTrouble());
                     if(party.CalculateTrouble() > 2){
                         setUiState(PartyState.FailTooMuchTrouble);
@@ -401,8 +401,8 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 onSelectActorEvent.current = (g) => {
 
                     guest.hasAction = false;
-                  
-               
+
+
                     let fnd = party.player.contacts.find(x => x.name == g.name && x.pop == g.pop);
                     if(fnd){
                         fnd.pop += 1;
@@ -431,14 +431,20 @@ export function PartyUI({ party, day, onEndGame }: { party: Party, day: number, 
                 if(party.guests.length >= party.maxGuests){
                     return;
                 }
-                let admitted = party.AdmitNextGuest();
+                let index = party.guests.length;
+                OpenDoor();
+                let admitted = party.guests[index];
                 if (admitted) {
                     let score = party.CalGuestScore(admitted);
                     party.ApplyCalcScore(score);
                     setPlayerPop(playerPop + score.pop);
                     setPlayerCash(playerCash + score.cash);
-                    setGuests([...party.guests]);
+
                 }
+                setGuests([...party.guests]);
+                setInfoline(undefined);
+                setUiState(PartyState.Normal);
+
                 guest.hasAction = false ;
                 break;
 

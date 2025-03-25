@@ -71,19 +71,19 @@ function App() {
 
      day={game.day} onEndGame={(win:boolean)=>{
       setBetweenRounds(true);
-      if(game.day==25||win){
-        if(win){
-          setGameEndMessage("You Win!");
-        }
-        else{
-          setGameEndMessage("You Lose!");
+      if(win){
+        setGameEndMessage("You Win!");
       }
-    }
+      else if(game.day==25){
+
+          setGameEndMessage("You Lose!");
+
+      }
 
       game.day++;
 
-     
-      
+
+
 
 
      }} /> }
