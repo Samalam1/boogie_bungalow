@@ -45,13 +45,14 @@ export class Shop {
     TryBuyGuest(guest: Guest, player: Player) {
 
 
-        let item = this.shopItems.find(x => x.Guest === guest);
+        let item = this.shopItems.find(x => x.Guest.name === guest.name);
         if (item && item.available > 0 && item.Guest.cost <= player.pop) {
             item.available--;
             player.pop -= item.Guest.cost;
             player.contacts.push({ ...item.Guest }); // clone the guest
             return true;
         }
+
         return false;
     }
 
@@ -152,7 +153,7 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
 
 
         {/* <button className="guest-slot " onClick={()=>} style={{height:"auto",background:"#eee",color:"#333"}}>
-   
+
         </button> */}
 
         {seed && <div style={{ display: "flex", flexDirection: "column", alignItems: "center",padding:"8px 8px 0 8px" }}>
@@ -188,9 +189,9 @@ export function ShopUI({ seed, player, shop, onDone, day,onSave,onLoad }: {onSav
                 onClick={onLoad}
                 style={{ padding: "8px",display:"inline-block", color: "#999", background: "#333", borderRadius: "4px",width:"68px",  marginBottom: "16px", cursor: "pointer", wordBreak: "break-all", userSelect: "none" }}
             >{"Load"}</div>
-            
-           </div> 
-            
+
+           </div>
+
             </div>}
 
         <PLayerScoreUI infoline="Shop" onInfo={onDone} isFocused={false} pop={player.pop} cta={(day == 1 ? "🎉 Start Party 🎉" : "🎉 Next Party 🎉")} cash={player.cash} day={day} trouble={0} />
